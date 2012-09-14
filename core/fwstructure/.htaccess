@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	
+	RewriteRule ^videos-pagina-([0-9]+).html$	index.php?force_route=true&r=videos/index/&page=$1 [QSA]
+	RewriteRule ^video-([0-9]+)-(.*)\.html$		index.php?force_route=true&r=videos/detail/&id=$1  [QSA]
+	RewriteRule ^categoria-([0-9]+)-(.*)\.html$	index.php?force_route=true&r=videos/index/&cat_id=$1  [QSA]
+	
+	RewriteCond %{REQUEST_FILENAME} -s [OR]
+	RewriteCond %{REQUEST_FILENAME} -l [OR]
+	RewriteCond %{REQUEST_FILENAME} -d 
+	
+	
+	RewriteRule ^.*$ - [NC,L]
+	RewriteRule ^.*$ index.php [NC,L]
+</IfModule>
