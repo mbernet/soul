@@ -85,10 +85,35 @@ class Router
         	}
             foreach(self::$routes as $route => $destination)
             {
-                if(substr($req, 0, strlen($route)) == $route)
-                {
-                    return $destination;
-                }
+            	$current = substr($req, 0, strlen($route));
+            	if(strpos($route, ':') !== false) //Contiene expresion regular
+            	{
+            		$a = preg_match_all('/\<([^\>]+)\>/', $route, $variables);
+            		if($a > 0)
+            		foreach($variables[1] as $expression_pair)
+            		{
+            			$epe = explode(':', $expression_pair);
+            			if(count($epe) == 2)
+            			{
+            				$route = str_replace('<'.$expression_pair.'>', $epe[1], $route);
+            			}
+            		}
+            		if(preg_match("/$route/", $current))
+            		{
+            			/*
+            			 * Cal substituir les variables per les que tenen nom id:
+            			 * 
+            			 * */
+            			return $destination;
+            		}
+            	}
+            	else
+            	{       	
+					if($current == $route)
+					{
+					    return $destination;
+					}
+            	}
             }
             return false;
         }
