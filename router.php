@@ -86,6 +86,8 @@ class Router
             foreach(self::$routes as $route => $destination)
             {
             	$current = substr($req, 0, strlen($route));
+            	
+            	/*TODO: Optimitzar aixo*/
             	if(strpos($route, ':') !== false) //Contiene expresion regular
             	{
             		$a = preg_match_all('/\<([^\>]+)\>/', $route, $variables);
@@ -96,17 +98,25 @@ class Router
             			if(count($epe) == 2)
             			{
             				$route = str_replace('<'.$expression_pair.'>', $epe[1], $route);
+            				$equiv[':'.$epe[0]] = null;
             			}
             		}
-            		if(preg_match("/$route/", $current))
+            		if(preg_match_all("/$route/", $current, $vars))
             		{
-            			/*
-            			 * Cal substituir les variables per les que tenen nom id:
-            			 * 
-            			 * */
+            			$i=1;
+            			foreach($equiv as $key => $val)
+            			{
+            				$equiv[$key] = $vars[$i][0];
+            				foreach($destination as $kdest => $value)
+	            			{
+	            				$destination[$kdest] = str_replace($key, $vars[$i][0], $value);
+	            			}
+            				$i++;
+            			}
             			return $destination;
             		}
             	}
+            	/*Fi Optimitzar*/
             	else
             	{       	
 					if($current == $route)
