@@ -3,6 +3,7 @@ class Router
 {
     
         protected static $routes;
+        protected static $regularRoutes;
         
         static function get_route()
         {
@@ -79,57 +80,57 @@ class Router
         
         private static function search_in_routes($req)
         {
-        	if(empty(self::$routes))
+        	$dest = self::search_in_normal_routes($req);
+        	if($dest !== false)
         	{
-        		return false;
+        		return $dest;
         	}
-            foreach(self::$routes as $route => $destination)
-            {
-            	$current = substr($req, 0, strlen($route));
-            	
-            	/*TODO: Optimitzar aixo*/
-            	if(strpos($route, ':') !== false) //Contiene expresion regular
-            	{
-            		$a = preg_match_all('/\<([^\>]+)\>/', $route, $variables);
-            		if($a > 0)
-            		foreach($variables[1] as $expression_pair)
-            		{
-            			$epe = explode(':', $expression_pair);
-            			if(count($epe) == 2)
-            			{
-            				$route = str_replace('<'.$expression_pair.'>', $epe[1], $route);
-            				$equiv[':'.$epe[0]] = null;
-            			}
-            		}
-            		if(preg_match_all("/$route/", $current, $vars))
-            		{
-            			$i=1;
-            			foreach($equiv as $key => $val)
-            			{
-            				$equiv[$key] = $vars[$i][0];
-            				foreach($destination as $kdest => $value)
-	            			{
-	            				$destination[$kdest] = str_replace($key, $vars[$i][0], $value);
-	            			}
-            				$i++;
-            			}
-            			return $destination;
-            		}
-            	}
-            	/*Fi Optimitzar*/
-            	else
-            	{       	
-					if($current == $route)
+        	else
+        	{
+        		return self::search_in_regular_routes($req);
+        	}
+        	
+        	
+        }
+        
+        private static function search_in_normal_routes($req)
+        {
+        	if(!empty(self::$routes))
+        	{
+	            foreach(self::$routes as $route => $details)
+	            {
+	            	if($req == $route)
 					{
-					    return $destination;
+					    return $details['dest'];
 					}
-            	}
+	            }
+        	}
+        	return false;
+        }
+        
+        private static function search_in_regular_routes($req)
+        {
+        	foreach(self::$regularRoutes as $route => $details)
+            {
+    			$destination = $details['dest'];
+        		if(preg_match_all("/$route/", $req, $vars))
+        		{
+        			if($details['routeParams'])
+    				{
+	        			$i=1;
+	           			foreach($details['routeParams'] as $key => $val)
+	           			{
+	           					foreach($details['dest'] as $kdest => $value)
+		            			{
+		            				$destination[$kdest] = str_replace($key, $vars[$i++][0], $value);
+		            			}
+	            		}
+    				}
+    				return $destination;
+            	} 	
             }
             return false;
         }
-        
-        
-        
         
         static function get_vars($index, $req)
         {
@@ -149,13 +150,42 @@ class Router
             return $vars;
         }
         
-        static function add($path, $dest)
+        static function getExactPath($path)
         {
-            if(!isset(self::$routes[$path]))
+        	if(strpos($path, ':') !== false) //Contiene expresion regular
+            {
+	        	$a = preg_match_all('/\<([^\>]+)\>/', $path, $variables);
+	        	if($a > 0)
+	            {
+	            	$route = $path;
+	            	foreach($variables[1] as $expression_pair)
+	        		{
+	        			$epe = explode(':', $expression_pair);
+	        			if(count($epe) == 2)
+	        			{
+	        				$route = str_replace('<'.$expression_pair.'>', $epe[1], $route);
+	        				$params[] = $epe[0];
+	        			}
+	        			
+	        		}
+	        		return array($route, $params);
+	            }
+            }
+            return array($path, false);   
+        }
+        
+ 
+        static function addRegular($path, $dest)
+        {
+        	$exRoute = self::getExactPath($path);
+        	$path = $exRoute[0];
+        	$routeParams = $exRoute[1];
+        	
+        	if(!isset(self::$regularRoutes[$path]))
             {
                 if(is_array($dest) && isset($dest['controller']) && isset($dest['action']))
                 {
-                    self::$routes[$path] = $dest;
+                    self::$regularRoutes[$path] = array('dest' => $dest, 'routeParams' => $routeParams);
                     return true;
                 }
                 else
@@ -164,5 +194,23 @@ class Router
                 }
             }
             return false;
+        
+        }
+        
+        static function addExact($path, $dest)
+        {
+        	if(!isset(self::$routes[$path]))
+            {
+                if(is_array($dest) && isset($dest['controller']) && isset($dest['action']))
+                {
+                    self::$routes[$path] = array('dest' => $dest);
+                    return true;
+                }
+                else
+                {
+                    trigger_error('Unknown destination', E_USER_NOTICE);
+                }
+            }
+        	
         }
 }
