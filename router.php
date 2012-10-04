@@ -22,7 +22,12 @@ class Router
             $req = $_SERVER['REQUEST_URI'];
             if(substr($_SERVER['REQUEST_URI'], 1, strlen(DIR_ROOT)) == DIR_ROOT)
             {
-                $req = substr($_SERVER['REQUEST_URI'], strlen(DIR_ROOT) + 2);
+                $offset = 2;
+                if(strlen(DIR_ROOT) == 1)
+                {
+                    $offset = 1;
+                }
+                $req = substr($_SERVER['REQUEST_URI'], strlen(DIR_ROOT) + $offset);
                 return self::extract_data_route($req);
             }
         
