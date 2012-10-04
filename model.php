@@ -19,7 +19,7 @@ class ConnectionFactory
     public function getConnection($config) {
         if (!isset($this->db[$config['name']]))
         {
-            $this->db[$config['name']] = new PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']}", $config['login'], $config['password']);
+            $this->db[$config['name']] = new PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};charset=utf8;", $config['login'], $config['password']);
         }
         
         return $this->db[$config['name']];
@@ -89,8 +89,16 @@ class Model
         if($this->beforeQuery($sql))
         {
             $statement = self::$connection->prepare($sql);
-            $statement->execute($input_parameters);
-            return $statement;
+            //debug($statement);
+            if(!$statement->errorCode())
+            {
+                $statement->execute($input_parameters);
+                return $statement;
+            }
+            else
+            {
+                trigger_error($statement->errorCode().": ".$statement->errorInfo());
+            }
         }
         return false;
     }
