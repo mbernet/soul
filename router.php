@@ -23,7 +23,7 @@ class Router
             if(substr($_SERVER['REQUEST_URI'], 1, strlen(DIR_ROOT)) == DIR_ROOT)
             {
                 $offset = 2;
-                if(strlen(DIR_ROOT) == 1)
+                if(strlen(DIR_ROOT) == 0)
                 {
                     $offset = 1;
                 }
