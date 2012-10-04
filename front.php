@@ -7,10 +7,7 @@ class FrontController
                 
 		if(file_exists($file))
 		{
-                        
-						require_once($file);
-						
-                        
+						require($file);
                         if(class_exists($controller))
                         {
         
