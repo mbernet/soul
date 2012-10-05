@@ -88,19 +88,68 @@ class Model
     {
         if($this->beforeQuery($sql))
         {
+
+
             $statement = self::$connection->prepare($sql);
-            //debug($statement);
-            if(!$statement->errorCode())
+            if(!$statement->execute($input_parameters))
             {
-                $statement->execute($input_parameters);
-                return $statement;
+                 $errorInfo = implode(' : ', $statement->errorInfo());
+                 trigger_error("SQL ERROR: $errorInfo");
             }
-            else
-            {
-                trigger_error($statement->errorCode().": ".$statement->errorInfo());
-            }
+            return $statement;
+           
         }
         return false;
+    }
+
+    protected function rules()
+    {
+        return false;
+    }
+
+    protected function validationRules()
+    {
+        return array(
+                        'url'    =>  '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+                        'email'  => '/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/',
+                        'username' => '/^[a-z0-9_-]{3,15}$/'
+                    );
+    }
+
+    
+
+    /*
+    * Check $data with validationRules()
+    *
+    */
+    public function validate($data)
+    {
+        $rules = $this->rules();
+        $regex = $this->validationRules();
+        $errors = array();
+        if($rules)
+        {
+            foreach ($rules as $key => $value) {
+                if(isset($rules[$key]))
+                {
+                    
+                    if($value['required'] && empty($data[$key]))
+                    {
+                        $errors[$key] = 'FIELD_EMPTY';
+                    }
+                    if(isset($data[$key]) && isset($value['rule']) && isset($regex[$value['rule']]))
+                    {
+                        if(!preg_match($regex[$value['rule']], $data[$key]))
+                        {
+                            $errors[$key] = 'NOT_MATCH';
+                        }
+                    }
+                }
+            }
+        }
+        if(empty($errors))
+            return true;
+        return $errors;
     }
     
 }

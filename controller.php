@@ -101,4 +101,18 @@ class Controller
         public function beforeRender()
         {   
         }
+
+        public function url($array)
+        {
+            $url = $array['controller'].'/'.$array['action'];
+            unset($array['controller']);
+            unset($array['action']);
+            $args = implode('/', $array);
+            $route = '/'.$url.'/'.$args;
+            if(strlen(DIR_ROOT)>0)
+            {
+                return '/'.DIR_ROOT.$route;
+            }
+            return $route;
+        }
 }
