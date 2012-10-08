@@ -1,7 +1,7 @@
 <?php
 class FrontController
 {
-	static function dispatch($controller,$action, $controller_file ,$vars_get, $vars_post, $vars_uri)
+	static function dispatch($controller,$action, $controller_file ,$vars_get, $vars_post, $vars_uri, $vars_arg)
 	{              
 		$file = "app/controllers/".$controller_file.".php";
                 
@@ -16,7 +16,7 @@ class FrontController
                             {
                             		$controller_inst->name = $controller;
                             		$controller_inst->action = $action;
-                                    $controller_inst->setRequest($vars_get, $vars_post, $vars_uri);
+                                    $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
                                     
                                     $controller_inst->beforeAction();
                                     $generateCache = false;

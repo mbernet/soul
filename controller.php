@@ -11,11 +11,12 @@ class Controller
          * @param Array $post_vars
          * @param Array $url_vars 
          */
-        public function setRequest($get_vars, $post_vars, $url_vars)
+        public function setRequest($get_vars, $post_vars, $url_vars, $vars_args)
         {
         	$this->params['get'] = $get_vars;
         	$this->params['post'] = $post_vars;
         	$this->params['url'] = $url_vars;
+            $this->params['args'] = $vars_args;
         }
         
         public function params($type)

@@ -68,13 +68,16 @@ class Router
                  $action['file']         = strtolower($rfind['controller']);
                  $action['function']     = $rfind['action'];
                  $action['vars']         = Router::get_vars($start_position, $req_array);
+                 $action['args']         = array_slice($rfind, 2);
              }
              else if(count($req_array) >= 2)
              {
+
                  $action['controller']   = ucfirst($req_array[$start_position]).'Controller';
                  $action['file']         = strtolower($req_array[$start_position]);
                  $action['function']     = $req_array[$start_position+1];
                  $action['vars']         = Router::get_vars($start_position, $req_array);
+                 $action['args']         = array_slice($action['vars'], 2);
              }
              else
              {
@@ -120,6 +123,7 @@ class Router
     			$destination = $details['dest'];
         		if(preg_match_all("/$route/", $req, $vars))
         		{
+                    
         			if($details['routeParams'])
     				{
 	        			$i=1;
@@ -127,7 +131,11 @@ class Router
 	           			{
 	           					foreach($details['dest'] as $kdest => $value)
 		            			{
-		            				$destination[$kdest] = str_replace($key, $vars[$i++][0], $value);
+                                    $rep = $vars[$i++][0];
+                                    if(strpos($value, ':') !== false)
+                                    {
+    		            				$destination[$kdest] = str_replace(':'.$val, $rep, $value);
+                                    }
 		            			}
 	            		}
     				}
