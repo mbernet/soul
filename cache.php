@@ -38,6 +38,7 @@ class ActionCache
 	
 	static function hashRequest()
 	{
-		return md5(implode('', $_REQUEST));
+		$req = implode('', $_GET) . implode('', $_POST) . $_SERVER['PHP_SELF'];
+		return md5($req);
 	}
 }
