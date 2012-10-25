@@ -137,10 +137,14 @@ class Router
 	           			{
 	           					foreach($details['dest'] as $kdest => $value)
 		            			{
-                                    $rep = $vars[$i++][0];
-                                    if(strpos($value, ':') !== false)
+                                    foreach ($vars as $repo) 
                                     {
-    		            				$destination[$kdest] = str_replace(':'.$val, $rep, $value);
+                                        $rep = $repo[0];
+                                        if(strpos($value, ':') !== false)
+                                        {
+        		            				$destination[$kdest] = str_replace(':'.$val, $rep, $value);
+                                        }
+                                       
                                     }
 		            			}
 	            		}
