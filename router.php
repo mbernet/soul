@@ -58,10 +58,15 @@ class Router
          */
         private static function extract_data_route($req, $start_position = 0)
         {   
-        	 if(empty($req)) $req = DEFAULT_ROUTE;
+        	 
+            
+             $pos = strpos($req,'?');
+             if($pos !== false)
+             {
+                $req = substr($req, 0, $pos);
+             }
+             if(empty($req)) $req = DEFAULT_ROUTE;
              $req_array = explode('/', $req);
-             
-             
              if($rfind = self::search_in_routes($req))
              {
                  $action['controller']   = ucfirst($rfind['controller']).'Controller';
@@ -81,6 +86,7 @@ class Router
              }
              else
              {
+
                  trigger_error('Action not found', E_USER_ERROR);
              }
              return $action;
