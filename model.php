@@ -94,7 +94,7 @@ class Model
             if(!$statement->execute($input_parameters))
             {
                  $errorInfo = implode(' : ', $statement->errorInfo());
-                 trigger_error("SQL ERROR: $errorInfo");
+                 throw new Exception("SQL ERROR: $errorInfo");
             }
             return $statement;
            

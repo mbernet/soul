@@ -46,7 +46,7 @@ class Request
     {
        if(!isset($this->params[$method]))
        {
-            trigger_error("Method $method does not exists", E_USER_WARNING);
+            throw new Exception("Method $method does not exists", E_USER_WARNING);
        }
        else if($key == null)
        {
@@ -58,7 +58,7 @@ class Request
        }
        else
        {
-           trigger_error("Key $key in $method does not exists", E_USER_WARNING);
+           throw new Exception("Key $key in $method does not exists", E_USER_WARNING);
        }
     }
     

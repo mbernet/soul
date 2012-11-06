@@ -32,7 +32,7 @@ class Autoloader
             }
             else
             {
-                trigger_error("File $file not found: Error loading $class_name class", E_USER_ERROR);
+                throw new Exception("File $file not found: Error loading $class_name class", E_USER_ERROR);
             }
         }
         else
@@ -45,7 +45,7 @@ class Autoloader
 	                return true;
 	            }
         }
-        trigger_error("File $file not found: Error loading $class_name class. Unknown type $type", E_USER_ERROR);
+        throw new Exception("File $file not found: Error loading $class_name class. Unknown type $type", E_USER_ERROR);
     }
     
     public static function autoLoadFile($class_name)

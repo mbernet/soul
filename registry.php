@@ -63,7 +63,7 @@ class Registry {
 	 */
 	public function __clone()
 	{
-		trigger_error( 'Cloning the registry is not permitted', E_USER_ERROR );
+		throw new Exception( 'Cloning the registry is not permitted', E_USER_ERROR );
 	}
         
         /**
@@ -86,7 +86,7 @@ class Registry {
             }
             else
             {
-                trigger_error("Cannot load $object", E_USER_ERROR);
+                throw new Exception("Cannot load $object", E_USER_ERROR);
             }
             
         }
@@ -104,7 +104,7 @@ class Registry {
             }
             else
             {
-                trigger_error("Method $name not found", E_USER_ERROR);
+                throw new Exception("Method $name not found", E_USER_ERROR);
             }
         }
         

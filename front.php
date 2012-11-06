@@ -35,17 +35,17 @@ class FrontController
                             }
                             else
                             {
-                                    trigger_error("Missing method in $controller", E_USER_ERROR);
+                                    throw new Exception("Missing method in $controller", E_USER_ERROR);
                             }
                         }
                         else
                         {
-                            trigger_error("Class not found" ,E_USER_ERROR);
+                            throw new Exception("Class not found" ,E_USER_ERROR);
                         }
 		}
 		else
 		{
-                    trigger_error('Missing file or action not found', E_USER_ERROR);
+                    throw new Exception('Missing file or action not found', E_USER_ERROR);
 		}
 	}
 }

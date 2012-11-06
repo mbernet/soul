@@ -87,7 +87,7 @@ class Router
              else
              {
 
-                 trigger_error('Action not found', E_USER_ERROR);
+                 throw new Exception('Action not found', E_USER_ERROR);
              }
              return $action;
         }
@@ -213,7 +213,7 @@ class Router
                 }
                 else
                 {
-                    trigger_error('Unknown destination', E_USER_NOTICE);
+                    throw new Exception('Unknown destination', E_USER_NOTICE);
                 }
             }
             return false;
@@ -231,7 +231,7 @@ class Router
                 }
                 else
                 {
-                    trigger_error('Unknown destination', E_USER_NOTICE);
+                    throw new Exception('Unknown destination', E_USER_NOTICE);
                 }
             }
         	
