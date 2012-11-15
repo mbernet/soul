@@ -1,5 +1,5 @@
 <?php
-class Controller
+class Controller extends Object
 {
 		protected $params = array();
         protected $layout = 'default';

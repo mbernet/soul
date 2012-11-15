@@ -32,7 +32,7 @@ class ModelMapper
     
 }
 
-class Model
+class Model extends Object
 {
     protected static $modelMapper;
     protected static $connection = null;

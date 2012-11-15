@@ -1,6 +1,7 @@
 <?php
 require('core/config.php');
 require('app/config/config.php');
+require('core/object.php');
 require('core/functions.php');
 require('core/request.php');
 require('core/front.php');
