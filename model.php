@@ -102,6 +102,11 @@ class Model extends Object
         return false;
     }
 
+    public function lastInsertId()
+    {
+        return self::$connection->lastInsertId();
+    }
+
     protected function rules()
     {
         return false;
