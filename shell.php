@@ -6,10 +6,13 @@ if( php_sapi_name() != 'cli' )
 	die('shell only available in console mode');
 }
 
+
+
 $time_start = microtime(true);
 require('core/config.php');
-require('core/functions.php');
 require('app/config/config.php');
+require('core/object.php');
+require('core/functions.php');
 require('core/request.php');
 require('core/front.php');
 require('core/controller.php');
@@ -19,6 +22,7 @@ require('core/registry.php');
 require('core/model.php');
 require('core/cache.php');
 require('core/exception.php');
+require('app/config/routes.php');
 
 set_exception_handler(array('SoulException', 'catchException'));
 
