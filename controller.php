@@ -71,7 +71,7 @@ class Controller extends Object
             ob_flush();
         }
 
-        private function renderElement($element)
+        private function renderElement($element, $data = null)
         {
             ob_start();
             include('app'.DS.'views'.DS.$element.'.php');
