@@ -70,7 +70,16 @@ class Controller extends Object
             include('app'.DS.'views'.DS.$view.'.php');
             ob_flush();
         }
-        
+
+        private function renderElement($element)
+        {
+            ob_start();
+            include('app'.DS.'views'.DS.$element.'.php');
+            $all_content = ob_get_clean();
+            ob_flush();
+            return $all_content;
+        }
+
         public function manageCache()
         {
         	if (defined('DISABLE_CACHE') && DISABLE_CACHE )
