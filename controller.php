@@ -76,7 +76,6 @@ class Controller extends Object
             ob_start();
             include('app'.DS.'views'.DS.$element.'.php');
             $all_content = ob_get_clean();
-            ob_flush();
             return $all_content;
         }
 
