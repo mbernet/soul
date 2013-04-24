@@ -30,8 +30,8 @@ class Controller extends Object
 	
         /**
          *
-         * @param type $view the view to render
-         * @param type $data data for the view
+         * @param string $view the view to render
+         * @param string $data data for the view
          */
         protected function render($view, $data = null)
         {

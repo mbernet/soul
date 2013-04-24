@@ -45,7 +45,7 @@ class FrontController
 		}
 		else
 		{
-                    throw new Exception('Missing file or action not found', E_USER_ERROR);
+                    throw new Exception('Missing file or action not found'.' ('.$file.')', E_USER_ERROR);
 		}
 	}
 }

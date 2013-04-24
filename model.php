@@ -88,20 +88,25 @@ class Model extends Object
     {
         if($this->beforeQuery($sql))
         {
-
-
             $statement = self::$connection->prepare($sql);
             if(!$statement->execute($input_parameters))
             {
                  $errorInfo = implode(' : ', $statement->errorInfo());
-                 throw new Exception("SQL ERROR: $errorInfo");
+                 throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
             return $statement;
-           
         }
         return false;
     }
 
+	/**
+	 * @param string $sql
+	 * @return PDOStatement statement
+	 */
+	public function prepare($sql)
+	{
+		return self::$connection->prepare($sql);
+	}
     public function lastInsertId()
     {
         return self::$connection->lastInsertId();
@@ -134,7 +139,8 @@ class Model extends Object
         $errors = array();
         if($rules)
         {
-            foreach ($rules as $key => $value) {
+            foreach($rules as $key => $value)
+            {
                 if(isset($rules[$key]))
                 {
                     
