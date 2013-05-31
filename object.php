@@ -9,7 +9,7 @@ class Object
 		}
 
 		$log = LOG_DIR . DS . $file . '.log';
-		if(is_array($msg))
+		if(is_array($msg) || is_object($msg))
 		{
 			$msg = print_r($msg, true);
 		}
