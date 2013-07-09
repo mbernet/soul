@@ -4,8 +4,6 @@
  */
 class Autoloader
 {
-    
-    
 	private static $objectTypes = array(
 		'Model' => 'models',
 		'Controller' => 'controllers',
@@ -20,7 +18,7 @@ class Autoloader
      */
     public static function loadFile($class_name, $type, $file)
     {
-       if(key_exists($type, self::$objectTypes))
+       if(array_key_exists($type, self::$objectTypes))
         {
             $directory = "app".DS.self::$objectTypes[$type].DS;
             $file = strtolower($directory.$file.'.php');
@@ -66,13 +64,12 @@ class Autoloader
        
         if(count($name_array) == 2)
         {
-            if(key_exists($name_array[1], self::$objectTypes))
+            if(array_key_exists($name_array[1], self::$objectTypes))
             {
                 return $name_array;
             }
         }
         return false;
     }
-    
     
 }

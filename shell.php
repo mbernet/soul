@@ -22,20 +22,32 @@ require('core/registry.php');
 require('core/model.php');
 require('core/cache.php');
 require('core/exception.php');
+require('core/shellcommand.php');
 require('app/config/routes.php');
+
 
 set_exception_handler(array('SoulException', 'catchException'));
 
 if(isset($argv[1]) && isset($argv[2]))
 {
-	require('app/shells/'.$argv[1].'.php');
+	$path = 'app/shells/'.strtolower($argv[1]).'.php';
+	include($path);
 	$class = ucfirst($argv[1]).'Shell';
 	$shell = new $class();
-	$shell->$argv[2]();
+	if(method_exists($shell, $argv[2]))
+	{
+		$shell->params = $argv;
+		$shell->$argv[2]();
+	}
+	else
+	{
+		echo "Method  {$argv[2]}()  doesn't exists\n";
+	}
+
 }
 else
 {
-	die();
+	die('Missing arguments');
 }
 
 

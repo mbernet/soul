@@ -13,7 +13,7 @@ function debug($obj)
 	if(DEBUG)
 	{
 	    echo "<pre>";
-	    print_r($obj);
+	    var_dump($obj);
 	    echo "</pre>";
 	}
     
