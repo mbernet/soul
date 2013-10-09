@@ -47,10 +47,7 @@ class Model extends Object
     
     public function __construct()
     {
-        if(self::$connection == null)
-        {
-            $this->connect(DatabaseConfig::$default);
-        }
+
     }
     
     /**
@@ -88,12 +85,18 @@ class Model extends Object
     {
         if($this->beforeQuery($sql))
         {
+	        if(self::$connection == null)
+	        {
+		        $this->connect(DatabaseConfig::$default);
+	        }
             $statement = self::$connection->prepare($sql);
             if(!$statement->execute($input_parameters))
             {
                  $errorInfo = implode(' : ', $statement->errorInfo());
+	             self::$connection = null;
                  throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
+	        self::$connection = null;
             return $statement;
         }
         return false;
