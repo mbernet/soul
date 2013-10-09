@@ -93,10 +93,8 @@ class Model extends Object
             if(!$statement->execute($input_parameters))
             {
                  $errorInfo = implode(' : ', $statement->errorInfo());
-	             self::$connection = null;
                  throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
-	        self::$connection = null;
             return $statement;
         }
         return false;
