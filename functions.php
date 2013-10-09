@@ -1,5 +1,5 @@
 <?php
-
+/*TODO*/
 function __($text)
 {
 	if(empty($text))
