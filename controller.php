@@ -4,6 +4,7 @@ class Controller extends Object
 		protected $params = array();
         protected $layout = 'default';
         protected $generateCache = false;
+		public $action = '';
         
  /**
          *
