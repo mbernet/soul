@@ -42,7 +42,7 @@ class Model extends Object
 
     public static function gateway()
     {
-        return $this->$modelMapper;
+       // return $this->$modelMapper;
     }
     
     public function __construct()
@@ -75,6 +75,18 @@ class Model extends Object
     {
         return self::$connection_name;
     }
+
+	/**
+	 * @return PDO connection
+	 */
+	public function getCurrentConnection()
+	{
+		if(self::$connection == null)
+		{
+			$this->connect(DatabaseConfig::$default);
+		}
+		return self::$connection;
+	}
     
     /**
      *
