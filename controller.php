@@ -99,6 +99,11 @@ class Controller extends Object
         	
         	return false;
         }
+
+		protected function model($name)
+		{
+			return Registry::init()->model($name);
+		}
         
         public function beforeAction()
         {    

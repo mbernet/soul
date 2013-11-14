@@ -1,5 +1,5 @@
 <?php
-class SoulException
+class SoulException extends Exception
 {
 	static function catchException($exception)
 	{
@@ -26,6 +26,7 @@ class SoulException
 	}
 	static function showError($message)
 	{
+		header('HTTP/1.0 404 Not Found');
 		echo "<h1> Error {$message['code']}</h1>";
 		echo "<strong>{$message['Message']}</strong> ";
 		echo "<br /><strong>file:</strong> {$message['File']} ";
