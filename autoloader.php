@@ -18,28 +18,39 @@ class Autoloader
      */
     public static function loadFile($class_name, $type, $file)
     {
+
        if(array_key_exists($type, self::$objectTypes))
         {
-            $directory = "app".DS.self::$objectTypes[$type].DS;
-            $file = strtolower($directory.$file.'.php');
-            
-            if(file_exists($file))
-            {
-                require($file);
-                return true;
-            }
-            else
-            {
-                throw new Exception("File $file not found: Error loading $class_name class", E_USER_ERROR);
-            }
+
+	        $fileToSearch = strtolower("app".DS.self::$objectTypes[$type].DS.$file.'.php');
+
+	        if(file_exists($fileToSearch))
+	        {
+		        require($fileToSearch);
+		        return true;
+	        }
+	        else if($type == 'Controller')
+	        {
+		        foreach(Paths::$controllers as $dir)
+		        {
+			        $directory = "app".DS.self::$objectTypes[$type].DS.$dir.DS;
+			        $fileToSearch = strtolower($directory.$file.'.php');
+			        if(file_exists($fileToSearch))
+			        {
+				        require($fileToSearch);
+				        return true;
+			        }
+		        }
+		        throw new Exception("File $file not found: Error loading $class_name class. <br>Look at config/controllers.php and define your paths", E_USER_ERROR);
+	        }
         }
         else
         {
         		$directory = "app".DS.'classes'.DS;
-        		$file = strtolower($directory.$file.'.php');
-        		if(file_exists($file))
+        		$fileToSearch = strtolower($directory.$file.'.php');
+        		if(file_exists($fileToSearch))
 	            {
-	                require($file);
+	                require($fileToSearch);
 	                return true;
 	            }
         }

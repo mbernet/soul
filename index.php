@@ -14,6 +14,7 @@ require('core/cache.php');
 require('core/exception.php');
 require('app/config/routes.php');
 require('app/config/bootstrap.php');
+require('app/config/paths.php');
 
 set_exception_handler(array('SoulException', 'catchException'));
 
