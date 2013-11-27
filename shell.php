@@ -23,6 +23,8 @@ require('core/model.php');
 require('core/cache.php');
 require('core/exception.php');
 require('core/shellcommand.php');
+require('app/config/bootstrap.php');
+require('app/config/paths.php');
 require('app/config/routes.php');
 
 
