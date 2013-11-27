@@ -3,7 +3,7 @@ class SoulException extends Exception
 {
 	static function catchException($exception)
 	{
-		if(DEBUG)
+		if(DEBUG || php_sapi_name() == 'cli')
 		{
 			$message['code'] = $exception->getCode();
 			$message['Message'] = $exception->getMessage();
