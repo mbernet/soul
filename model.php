@@ -118,6 +118,10 @@ class Model extends Object
 	 */
 	public function prepare($sql)
 	{
+        if(self::$connection == null)
+        {
+            $this->connect(DatabaseConfig::$default);
+        }
 		return self::$connection->prepare($sql);
 	}
     public function lastInsertId()
