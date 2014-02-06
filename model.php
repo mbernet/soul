@@ -138,7 +138,6 @@ class Model extends Object
     {
         return array(
                         'url'    =>  '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
-                        'email'  => '/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/',
                         'username' => '/^[a-z0-9_-]{3,15}$/'
                     );
     }
@@ -168,6 +167,13 @@ class Model extends Object
                     if(isset($data[$key]) && isset($value['rule']) && isset($regex[$value['rule']]))
                     {
                         if(!preg_match($regex[$value['rule']], $data[$key]))
+                        {
+                            $errors[$key] = 'NOT_MATCH';
+                        }
+                    }
+                    if(isset($data[$key]) && isset($value['function']))
+                    {
+                        if($this->$value['function']($data[$key]) === false)
                         {
                             $errors[$key] = 'NOT_MATCH';
                         }
