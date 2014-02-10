@@ -119,7 +119,15 @@ class Controller extends Object
 
         public function url($array)
         {
-            $url = $array['controller'].'/'.$array['action'];
+
+            if(empty($array['action']))
+            {
+                $url = $array['controller'];
+            }
+            else
+            {
+                $url = $array['controller'].'/'.$array['action'];
+            }
             unset($array['controller']);
             unset($array['action']);
             $args = implode('/', $array);
