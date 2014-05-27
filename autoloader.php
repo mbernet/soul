@@ -18,7 +18,6 @@ class Autoloader
      */
     public static function loadFile($class_name, $type, $file)
     {
-
        if(array_key_exists($type, self::$objectTypes))
         {
 
@@ -61,26 +60,38 @@ class Autoloader
     {
         if($name_type = self::getTypeFromName($class_name))
         {
-            return self::loadFile($class_name, $name_type[1], $name_type[0]);
+            return self::loadFile($class_name, $name_type[1], Autoloader::underscore($name_type[0]));
         }
         else
         {
-            return self::loadFile($class_name, null, $class_name);
+            return self::loadFile($class_name, null, Autoloader::underscore($class_name));
         }
     }
     
     private static function getTypeFromName($class_name)
     {
+
        $name_array = preg_split('/(?<=\\w)(?=[A-Z])/',$class_name);
-       
-        if(count($name_array) == 2)
+       $numCamel = count($name_array);
+        if($numCamel >= 2)
         {
-            if(array_key_exists($name_array[1], self::$objectTypes))
+
+            if(array_key_exists($name_array[$numCamel-1], self::$objectTypes))
             {
-                return $name_array;
+                $type =  $name_array[$numCamel-1];
+                unset($name_array[$numCamel-1]);
+                $name = implode('', $name_array);
+                return array(0 => $name, 1 => $type );
             }
         }
         return false;
     }
-    
+
+    private static function underscore($name)
+    {
+        $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
+        return $result;
+    }
+
+
 }

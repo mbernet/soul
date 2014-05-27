@@ -12,7 +12,10 @@ function debug($obj)
 {
 	if(DEBUG)
 	{
+        $bt = debug_backtrace();
+        $caller = array_shift($bt);
 	    echo "<pre>";
+        echo $caller['file'].':'.$caller['line']."\n";
 	    var_dump($obj);
 	    echo "</pre>";
 	}
