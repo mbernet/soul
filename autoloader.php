@@ -47,6 +47,7 @@ class Autoloader
         {
         		$directory = "app".DS.'classes'.DS;
         		$fileToSearch = strtolower($directory.$file.'.php');
+
         		if(file_exists($fileToSearch))
 	            {
 	                require($fileToSearch);
