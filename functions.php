@@ -16,7 +16,7 @@ function debug($obj)
         $caller = array_shift($bt);
 	    echo "<pre>";
         echo $caller['file'].':'.$caller['line']."\n";
-	    var_dump($obj);
+	    print_r($obj);
 	    echo "</pre>";
 	}
     
