@@ -1,8 +1,8 @@
 <?php
+require_once 'vendor/autoload.php';
 spl_autoload_register(function($class) {
     Autoloader::autoLoadFile($class);
 });
-
 
 require('core/config.php');
 require('app/config/config.php');

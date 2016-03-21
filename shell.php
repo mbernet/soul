@@ -5,8 +5,10 @@ if( php_sapi_name() != 'cli' )
 	die('shell only available in console mode');
 }
 
-
-
+require_once 'vendor/autoload.php';
+spl_autoload_register(function($class) {
+	Autoloader::autoLoadFile($class);
+});
 $time_start = microtime(true);
 require('core/config.php');
 require('app/config/config.php');
@@ -54,9 +56,3 @@ else
 
 $time_end = microtime(true);
 $time = $time_end - $time_start;
-
-//echo "<!-- $time seconds -->";
-       
-function __autoload($name) {
-    Autoloader::autoLoadFile($name);
-}
