@@ -22,6 +22,14 @@ class SoulException extends Exception
 		else
 		{
 			header('HTTP/1.0 404 Not Found');
+			if(defined('ERROR_VIEW')) {
+				$message['code'] = $exception->getCode();
+				$message['Message'] = $exception->getMessage();
+				$message['File'] = $exception->getFile();
+				$message['line'] = $exception->getLine();
+				include('app'.DS.'views'.DS.ERROR_VIEW.'.php');
+			}
+
 		}
 	}
 	static function showError($message)
