@@ -1,5 +1,7 @@
 <?php
-require_once 'vendor/autoload.php';
+if(file_exists('vendor/autoload.php')) {
+    require_once 'vendor/autoload.php';
+}
 spl_autoload_register(function($class) {
     Autoloader::autoLoadFile($class);
 });
