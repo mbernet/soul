@@ -38,7 +38,7 @@ class ActionCache
 	
 	static function hashRequest()
 	{
-		$req = implode('', $_GET) . implode('', $_POST) . $_SERVER['REQUEST_URI'];
+		$req = implode('', $_GET) . implode('', $_POST) . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST'];
 
 		return sha1($req);
 	}
