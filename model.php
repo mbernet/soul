@@ -185,6 +185,34 @@ class Model extends Object
             return true;
         return $errors;
     }
+
+    protected function insert($table, $data) {
+        $strValues = '';
+        $strFields = '';
+        $params = $data;
+        foreach($data as $key => $value) {
+            $strFields .= "$key, ";
+            $strValues .= ":$key, ";
+        }
+        $strValues = rtrim($strValues, ', ');
+        $strFields = rtrim($strFields, ', ');
+        $sql = "INSERT INTO $table ($strFields) VALUES ($strValues)";
+
+        $rs = $this->prepare($sql);
+
+        foreach($params as $key => $value) {
+            $rs->bindValue(":$key", $value);
+        }
+
+
+        if($rs->execute()) {
+            return true;
+        }
+        else {
+            $errorInfo = $rs->errorInfo();
+            throw new SoulException($errorInfo[2]);
+        }
+    }
     
 }
 
