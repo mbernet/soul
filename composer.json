@@ -1,5 +1,6 @@
 {
     "name": "mbernet/soul",
+    "type": "library",
     "authors": [
         {
             "name": "Marc Bernet",

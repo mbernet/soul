@@ -1,4 +1,5 @@
 <?php
+$coreDir = __DIR__;
 if(file_exists('vendor/autoload.php')) {
     require_once 'vendor/autoload.php';
 }
@@ -6,19 +7,19 @@ spl_autoload_register(function($class) {
     Autoloader::autoLoadFile($class);
 });
 
-require('core/config.php');
+require($coreDir.'/config.php');
 require('app/config/config.php');
-require('core/object.php');
-require('core/functions.php');
-require('core/request.php');
-require('core/front.php');
-require('core/controller.php');
-require('core/router.php');
-require('core/autoloader.php');
-require('core/registry.php');
-require('core/model.php');
-require('core/cache.php');
-require('core/exception.php');
+require($coreDir.'/object.php');
+require($coreDir.'/functions.php');
+require($coreDir.'/request.php');
+require($coreDir.'/front.php');
+require($coreDir.'/controller.php');
+require($coreDir.'/router.php');
+require($coreDir.'/autoloader.php');
+require($coreDir.'/registry.php');
+require($coreDir.'/model.php');
+require($coreDir.'/cache.php');
+require($coreDir.'/exception.php');
 require('app/config/routes.php');
 require('app/config/bootstrap.php');
 require('app/config/paths.php');
