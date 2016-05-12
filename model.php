@@ -4,10 +4,10 @@ class ConnectionFactory
     private static $factory;
     private $db = false;
     private $numRows;
-    
+
     /**
      * Singleton contstructor
-     * @return type 
+     * @return type
      */
     public static function init()
     {
@@ -21,7 +21,7 @@ class ConnectionFactory
         {
             $this->db[$config['name']] = new PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};charset=utf8;", $config['login'], $config['password']);
         }
-        
+
         return $this->db[$config['name']];
     }
 }
@@ -29,7 +29,7 @@ class ConnectionFactory
 
 class ModelMapper
 {
-    
+
 }
 
 class Model extends Object
@@ -37,23 +37,24 @@ class Model extends Object
     protected static $modelMapper;
     protected static $connection = null;
     private static $connection_name;
+    protected $defaultConnection;
     //private $current_statement = null;
 
 
     public static function gateway()
     {
-       // return $this->$modelMapper;
+        // return $this->$modelMapper;
     }
-    
+
     public function __construct()
     {
-
+        $this->defaultConnection = DatabaseConfig::$default;
     }
-    
+
     /**
      *
      * @param type $statement
-     * @return type 
+     * @return type
      */
     protected function beforeQuery($sql)
     {
@@ -63,67 +64,67 @@ class Model extends Object
 
     /**
      *
-     * @param type $config 
+     * @param type $config
      */
     public function connect($config)
     {
         self::$connection_name = $config['name'];
         self::$connection = ConnectionFactory::init()->getConnection($config);
     }
-    
+
     public function getCurrentConnectionName()
     {
         return self::$connection_name;
     }
 
-	/**
-	 * @return PDO connection
-	 */
-	public function getCurrentConnection()
-	{
-		if(self::$connection == null)
-		{
-			$this->connect(DatabaseConfig::$default);
-		}
-		return self::$connection;
-	}
-    
+    /**
+     * @return PDO connection
+     */
+    public function getCurrentConnection()
+    {
+        if(self::$connection == null)
+        {
+            $this->connect($this->defaultConnection);
+        }
+        return self::$connection;
+    }
+
     /**
      *
      * @param string $sql
-     * @return PDOStatement statement 
+     * @return PDOStatement statement
      */
     public function query($sql, $input_parameters = null)
     {
         if($this->beforeQuery($sql))
         {
-	        if(self::$connection == null)
-	        {
-		        $this->connect(DatabaseConfig::$default);
-	        }
+            if(self::$connection == null)
+            {
+                $this->connect($this->defaultConnection);
+            }
             $statement = self::$connection->prepare($sql);
             if(!$statement->execute($input_parameters))
             {
-                 $errorInfo = implode(' : ', $statement->errorInfo());
-                 throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
+                $errorInfo = implode(' : ', $statement->errorInfo());
+                throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
             return $statement;
         }
         return false;
     }
 
-	/**
-	 * @param string $sql
-	 * @return PDOStatement statement
-	 */
-	public function prepare($sql)
-	{
+    /**
+     * @param string $sql
+     * @return PDOStatement statement
+     */
+    public function prepare($sql)
+    {
         if(self::$connection == null)
         {
-            $this->connect(DatabaseConfig::$default);
+            $this->connect($this->defaultConnection);
         }
-		return self::$connection->prepare($sql);
-	}
+        return self::$connection->prepare($sql);
+    }
     public function lastInsertId()
     {
         return self::$connection->lastInsertId();
@@ -137,12 +138,12 @@ class Model extends Object
     protected function validationRules()
     {
         return array(
-                        'url'    =>  '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
-                        'username' => '/^[a-z0-9_-]{3,15}$/'
-                    );
+            'url'    =>  '/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \?=.-]*)*\/?$/',
+            'username' => '/^[a-z0-9_-]{3,15}$/'
+        );
     }
 
-    
+
 
     /*
     * Check $data with validationRules()
@@ -159,7 +160,7 @@ class Model extends Object
             {
                 if(isset($rules[$key]))
                 {
-                    
+
                     if($value['required'] && empty($data[$key]))
                     {
                         $errors[$key] = 'FIELD_EMPTY';
@@ -213,7 +214,7 @@ class Model extends Object
             throw new SoulException($errorInfo[2]);
         }
     }
-    
+
 }
 
 
