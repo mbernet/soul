@@ -4,7 +4,7 @@ class FrontController
 	static function dispatch($controller,$action, $controller_file ,$vars_get, $vars_post, $vars_uri, $vars_arg)
 	{              
 		$controller_inst = new $controller();
-        if(method_exists($controller_inst,$action))
+        if(method_exists($controller_inst,$action) || method_exists($controller_inst, '__call'))
         {
                 $controller_inst->name = $controller;
                 $controller_inst->action = $action;
