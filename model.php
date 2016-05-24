@@ -51,6 +51,15 @@ class Model extends Object
         $this->defaultConnection = DatabaseConfig::$default;
     }
 
+    public function getPrimaryKey($table) {
+        $sql = "SHOW KEYS FROM `$table` WHERE Key_name = 'PRIMARY'";
+        $rs = $this->query($sql);
+        if($rs->rowCount() > 0) {
+            return $rs->fetch(PDO::FETCH_OBJ)->Column_name;
+        }
+        return false;
+    }
+
     /**
      *
      * @param type $statement
@@ -188,11 +197,13 @@ class Model extends Object
     }
 
     protected function insert($table, $data) {
+        $table = mysql_real_escape_string($table);
         $strValues = '';
         $strFields = '';
         $params = $data;
         foreach($data as $key => $value) {
-            $strFields .= "$key, ";
+            $key = mysql_real_escape_string($key);
+            $strFields .= "`$key`, ";
             $strValues .= ":$key, ";
         }
         $strValues = rtrim($strValues, ', ');
@@ -205,6 +216,40 @@ class Model extends Object
             $rs->bindValue(":$key", $value);
         }
 
+
+        if($rs->execute()) {
+            return $this->lastInsertId();
+        }
+        else {
+            $errorInfo = $rs->errorInfo();
+            throw new SoulException($errorInfo[2]);
+        }
+    }
+
+    /**
+     * @param $table
+     * @param $data
+     * @param $id
+     * @return bool
+     * @throws SoulException
+     */
+    protected function update($table, $data, $id) {
+
+        $strFields = '';
+        $params = $data;
+        foreach($data as $key => $value) {
+            $strFields .= "`$key` = :$key, ";
+        }
+        $strFields = rtrim($strFields, ', ');
+        $primaryKey = $this->getPrimaryKey($table);
+        $sql = "UPDATE $table SET $strFields WHERE $primaryKey = :primary_key_id LIMIT 1";
+
+
+        $rs = $this->prepare($sql);
+        foreach($params as $key => $value) {
+            $rs->bindValue(":$key", $value);
+        }
+        $rs->bindValue(':primary_key_id', $id);
 
         if($rs->execute()) {
             return true;
