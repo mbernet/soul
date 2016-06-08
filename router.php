@@ -124,33 +124,35 @@ class Router
         
         private static function search_in_regular_routes($req)
         {
-        	foreach(self::$regularRoutes as $route => $details)
-            {
-    			$destination = $details['dest'];
-        		if(preg_match_all("/$route/", $req, $vars))
-        		{
-                    
-        			if($details['routeParams'])
-    				{
-	        			$i=1;
-	           			foreach($details['routeParams'] as $key => $val)
-	           			{
-	           					foreach($details['dest'] as $kdest => $value)
-		            			{
-                                    foreach ($vars as $repo) 
+            if(!empty(self::$regularRoutes)) {
+                foreach(self::$regularRoutes as $route => $details)
+                {
+                    $destination = $details['dest'];
+                    if(preg_match_all("/$route/", $req, $vars))
+                    {
+
+                        if($details['routeParams'])
+                        {
+                            $i=1;
+                            foreach($details['routeParams'] as $key => $val)
+                            {
+                                foreach($details['dest'] as $kdest => $value)
+                                {
+                                    foreach ($vars as $repo)
                                     {
                                         $rep = $repo[0];
                                         if(strpos($value, ':') !== false)
                                         {
-        		            				$destination[$kdest] = str_replace(':'.$val, $rep, $value);
+                                            $destination[$kdest] = str_replace(':'.$val, $rep, $value);
                                         }
-                                       
+
                                     }
-		            			}
-	            		}
-    				}
-    				return $destination;
-            	} 	
+                                }
+                            }
+                        }
+                        return $destination;
+                    }
+                }
             }
             return false;
         }
