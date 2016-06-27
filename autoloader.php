@@ -54,7 +54,6 @@ class Autoloader
 	                return true;
 	            }
         }
-        throw new Exception("File $file not found: Error loading $class_name class. Unknown type $type", E_USER_ERROR);
     }
     
     public static function autoLoadFile($class_name)
