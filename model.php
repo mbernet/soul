@@ -197,12 +197,12 @@ class Model extends Object
     }
 
     protected function insert($table, $data) {
-        $table = mysql_real_escape_string($table);
+        $table = stripslashes($table);
         $strValues = '';
         $strFields = '';
         $params = $data;
         foreach($data as $key => $value) {
-            $key = mysql_real_escape_string($key);
+            $key = stripslashes($key);
             $strFields .= "`$key`, ";
             $strValues .= ":$key, ";
         }
