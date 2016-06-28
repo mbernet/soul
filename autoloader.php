@@ -9,7 +9,8 @@ class Autoloader
 		'Controller' => 'controllers',
 		'Config' => 'config',
 		'Component' => 'components',
-		'Helper'	=> 'helpers'
+		'Helper'	=> 'helpers',
+        'Resource'  => 'resources'
 	);
     
     /**
