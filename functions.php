@@ -12,14 +12,22 @@ function debug($obj)
 {
 	if(DEBUG)
 	{
-        $bt = debug_backtrace();
-        $caller = array_shift($bt);
-	    echo "<pre>";
-        echo $caller['file'].':'.$caller['line']."\n";
-	    print_r($obj);
-	    echo "</pre>";
+		$bt = debug_backtrace();
+		$caller = array_shift($bt);
+		if($_SERVER['HTTP_ACCEPT'] == 'application/json') {
+			echo "\r\n**************************************************************\n";
+			echo $caller['file'].':'.$caller['line']."\n\n";
+			print_r($obj);
+			echo "\r\n**************************************************************\n";
+		}
+		else {
+			echo "<pre>";
+			echo $caller['file'].':'.$caller['line']."\n";
+			print_r($obj);
+			echo "</pre>";
+		}
 	}
-    
+
 }
 
 function auto_version($file)
