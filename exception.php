@@ -39,7 +39,7 @@ class SoulException extends Exception
 			echo json_encode(
 				[
 					'code'      => $message['code'],
-					'message'   =>  $message['message'],
+					'message'   =>  $message['Message'],
 					'file'      => $message['File'],
 					'line'      => $message['line']
 				]
