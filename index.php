@@ -45,16 +45,14 @@ switch ($routeInfo[0]) {
         throw new SoulException("Method not allowed");
         break;
     case FastRoute\Dispatcher::FOUND:
-        $handler = $routeInfo[1];
-        $vars = $routeInfo[2];
-        FrontController::dispatch($handler['controller'], $handler['action'], $_GET, $_POST, $vars, $_GET);
+        FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], $routeInfo[2]);
         break;
     case FastRoute\Dispatcher::NOT_FOUND:
         $req_array = explode('/', $uri);
         $action['controller']   = str_replace('_', '', ucwords($req_array[1], '_')).'Controller';
         $action['file']         = strtolower($req_array[1]);
         $action['function']     = $req_array[2];
-        $action['vars']         = array_slice($req_array, 2);
-        FrontController::dispatch($action['controller'], $action['function'], $_GET, $_POST, $action['vars'], $_GET);
+        $action['vars']         = array_slice($req_array, 3);
+        FrontController::dispatch($action['controller'], $action['function'], $_GET, $_POST, $action['vars'], $action['vars']);
         break;
 }
