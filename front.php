@@ -1,7 +1,7 @@
 <?php
 class FrontController
 {
-	static function dispatch($controller,$action, $controller_file ,$vars_get, $vars_post, $vars_uri, $vars_arg)
+	static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
 	{              
 		$controller_inst = new $controller();
         if(method_exists($controller_inst,$action) || method_exists($controller_inst, '__call'))
@@ -11,7 +11,7 @@ class FrontController
                 $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
 
                 $controller_inst->beforeAction();
-                $generateCache = false;
+                //$generateCache = false;
                 $avoid_call_action = false;
                 if(isset($controller_inst->cacheActions[$action]))
                 {
@@ -27,6 +27,5 @@ class FrontController
         {
                 throw new Exception("Missing method in $controller", E_USER_ERROR);
         }
-
 	}
 }

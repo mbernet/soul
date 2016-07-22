@@ -50,6 +50,6 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
-        FrontController::dispatch($handler['controller'], $handler['action'], null, $_GET, $_POST, null, $_GET);
+        FrontController::dispatch($handler['controller'], $handler['action'], $_GET, $_POST, $vars, $_GET);
         break;
 }
