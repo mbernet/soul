@@ -14,18 +14,42 @@ require($coreDir.'/functions.php');
 require($coreDir.'/request.php');
 require($coreDir.'/front.php');
 require($coreDir.'/controller.php');
-require($coreDir.'/router.php');
 require($coreDir.'/autoloader.php');
 require($coreDir.'/registry.php');
 require($coreDir.'/model.php');
 require($coreDir.'/cache.php');
 require($coreDir.'/exception.php');
-require('app/config/routes.php');
 require('app/config/bootstrap.php');
 require('app/config/paths.php');
 
 set_exception_handler(array('SoulException', 'catchException'));
 
-$array_uri = Router::get_route();
+$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+    require('app/config/routes.php');
+});
 
-FrontController::dispatch($array_uri['controller'],$array_uri['function'], $array_uri['file'], $_GET, $_POST, $array_uri['vars'], $array_uri['args']);
+// Fetch method and URI from somewhere
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
+
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
+}
+$uri = rawurldecode($uri);
+
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+switch ($routeInfo[0]) {
+    case FastRoute\Dispatcher::NOT_FOUND:
+        throw new SoulException("Not Found");
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        throw new SoulException("Method not allowed");
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $handler = $routeInfo[1];
+        $vars = $routeInfo[2];
+        FrontController::dispatch($handler['controller'], $handler['action'], null, $_GET, $_POST, null, $_GET);
+        break;
+}

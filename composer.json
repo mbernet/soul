@@ -6,5 +6,8 @@
             "name": "Marc Bernet",
             "email": "mbernet@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "nikic/fast-route": "^1.0"
+    }
 }
