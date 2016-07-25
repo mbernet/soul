@@ -27,7 +27,7 @@ require($coreDir.'/exception.php');
 require($coreDir.'/shellcommand.php');
 require('app/config/bootstrap.php');
 require('app/config/paths.php');
-require('app/config/routes.php');
+//require('app/config/routes.php');
 
 
 set_exception_handler(array('SoulException', 'catchException'));
