@@ -19,7 +19,6 @@ require($coreDir.'/functions.php');
 require($coreDir.'/request.php');
 require($coreDir.'/front.php');
 require($coreDir.'/controller.php');
-require($coreDir.'/router.php');
 require($coreDir.'/autoloader.php');
 require($coreDir.'/registry.php');
 require($coreDir.'/model.php');
