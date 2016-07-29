@@ -49,7 +49,7 @@ switch ($routeInfo[0]) {
         break;
     case FastRoute\Dispatcher::NOT_FOUND:
         $req_array = explode('/', $uri);
-        $action['controller']   = str_replace('_', '', ucwords($req_array[1], '_')).'Controller';
+        $action['controller']   = str_replace('_', '', ucwords($req_array[1])).'Controller';
         $action['file']         = strtolower($req_array[1]);
         $action['function']     = $req_array[2];
         $action['vars']         = array_slice($req_array, 3);
