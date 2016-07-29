@@ -45,7 +45,7 @@ switch ($routeInfo[0]) {
         throw new SoulException("Method not allowed");
         break;
     case FastRoute\Dispatcher::FOUND:
-        FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], $routeInfo[2]);
+        FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
         break;
     case FastRoute\Dispatcher::NOT_FOUND:
         $req_array = explode('/', $uri);
