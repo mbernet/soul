@@ -6,15 +6,17 @@ class Object
 	protected function log($msg, $file = null, $type = null)
 	{
 // create a log channel
+		$context = [];
 		if(is_array($msg) || is_object($msg))
 		{
-			$msg = print_r($msg, true);
+			$context = $msg;
+			$msg = '';
 		}
 
 		$log = new Logger($file);
 		$log->pushHandler(new StreamHandler(LOG_DIR . DS . $file . '.log', Logger::DEBUG));
 
-		$log->debug($msg);
+		$log->debug($msg, $context);
 
 
 
