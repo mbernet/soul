@@ -1,8 +1,24 @@
 <?php
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 class Object
 {
-	protected function log($msg, $file = null)
+	protected function log($msg, $file = null, $type = null)
 	{
+// create a log channel
+		if(is_array($msg) || is_object($msg))
+		{
+			$msg = print_r($msg, true);
+		}
+
+		$log = new Logger($file);
+		$log->pushHandler(new StreamHandler(LOG_DIR . DS . $file . '.log', Logger::DEBUG));
+
+		$log->debug($msg);
+
+
+
+		/*
 		if($file == null)
 		{
 			$file = 'general';
@@ -20,7 +36,7 @@ class Object
 		{
 			fwrite($fh, $entry);
 			fclose($fh);
-		}
+		}*/
 	}
 
 	public function __toString()
