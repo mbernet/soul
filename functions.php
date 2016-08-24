@@ -1,11 +1,13 @@
 <?php
 /*TODO*/
-function __($text)
-{
-	if(empty($text))
-		return '';
-	else
-		return gettext($text);
+if(!function_exists('__')) {
+	function __($text)
+	{
+		if(empty($text))
+			return '';
+		else
+			return gettext($text);
+	}
 }
 
 function debug($obj)

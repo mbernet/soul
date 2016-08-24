@@ -9,6 +9,7 @@ spl_autoload_register(function($class) {
 
 require($coreDir.'/config.php');
 require('app/config/config.php');
+require('app/config/bootstrap.php');
 require($coreDir.'/object.php');
 require($coreDir.'/functions.php');
 require($coreDir.'/request.php');
@@ -21,7 +22,6 @@ require($coreDir.'/model.php');
 require($coreDir.'/cache.php');
 require($coreDir.'/exception.php');
 require('app/config/routes.php');
-require('app/config/bootstrap.php');
 require('app/config/paths.php');
 
 set_exception_handler(array('SoulException', 'catchException'));
