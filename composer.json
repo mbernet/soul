@@ -10,5 +10,11 @@
     "require": {
         "nikic/fast-route": "^1.0",
         "monolog/monolog": "^1.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "SoulFramework\\": "src/"
+        },
+        "files": ["src/functions.php"]
     }
 }

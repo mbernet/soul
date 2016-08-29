@@ -1,7 +1,7 @@
 <?php
+namespace SoulFramework;
 class Config
 {
-   
     private static $instance;
     private $config = array();
     private function __construct() 

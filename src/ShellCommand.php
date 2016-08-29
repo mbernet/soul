@@ -1,4 +1,5 @@
 <?php
+namespace SoulFramework;
 class ShellCommand
 {
 	protected $foreground_colors = array();

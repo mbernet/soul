@@ -1,7 +1,5 @@
 <?php
-/**
- * 
- */
+namespace SoulFramework;
 class Autoloader
 {
 	private static $objectTypes = array(
@@ -93,6 +91,4 @@ class Autoloader
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         return $result;
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+namespace SoulFramework;
 class ActionCache
 {
 	static function isCached($controller, $action, $expiration)

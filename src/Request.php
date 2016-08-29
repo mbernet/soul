@@ -1,4 +1,5 @@
 <?php
+namespace SoulFramework;
 class Request
 {
     private  static $methods = array('get', 'post', 'request');

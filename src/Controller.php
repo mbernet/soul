@@ -1,4 +1,6 @@
 <?php
+namespace SoulFramework;
+
 class Controller extends Object
 {
 		protected $params = array();

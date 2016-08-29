@@ -1,4 +1,5 @@
 <?php
+namespace SoulFramework;
 class FrontController
 {
 	static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
