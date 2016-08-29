@@ -26,7 +26,7 @@ class FrontController
         }
         else
         {
-                throw new Exception("Missing method in $controller", E_USER_ERROR);
+                throw new \Exception("Missing method in $controller", E_USER_ERROR);
         }
 	}
 }
