@@ -4,6 +4,10 @@ namespace SoulFramework;
 class Soul {
 
     function __construct() {
+        require('app/config/config.php');
+        require('app/config/bootstrap.php');
+        require('app/config/paths.php');
+
         spl_autoload_register(function($class) {
             Autoloader::autoLoadFile($class);
         });
