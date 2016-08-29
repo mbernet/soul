@@ -8,9 +8,9 @@ class Soul {
     }
 
     public function init() {
-        set_exception_handler(array('SoulFramework\SoulException', 'SoulFramework\catchException'));
+        set_exception_handler(array('SoulFramework\SoulException', 'catchException'));
 
-        $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
             require('app/config/routes.php');
         });
 
@@ -26,14 +26,14 @@ class Soul {
 
         $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
         switch ($routeInfo[0]) {
-            case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
                 throw new SoulException("Method not allowed");
                 break;
-            case FastRoute\Dispatcher::FOUND:
+            case \FastRoute\Dispatcher::FOUND:
                 FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
                 break;
-            case FastRoute\Dispatcher::NOT_FOUND:
+            case \FastRoute\Dispatcher::NOT_FOUND:
                 $req_array = explode('/', $uri);
                 $action['controller']   = str_replace('_', '', ucwords($req_array[1])).'Controller';
                 $action['file']         = strtolower($req_array[1]);
