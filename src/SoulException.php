@@ -1,7 +1,7 @@
 <?php
 namespace SoulFramework;
 
-class SoulException extends Exception
+class SoulException extends \Exception
 {
 	static function catchException($exception)
 	{
