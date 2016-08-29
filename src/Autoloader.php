@@ -39,7 +39,7 @@ class Autoloader
 				        return true;
 			        }
 		        }
-		        throw new Exception("File $file not found: Error loading $class_name class. <br>Look at config/controllers.php and define your paths", E_USER_ERROR);
+		        throw new \Exception("File $file not found: Error loading $class_name class. <br>Look at config/controllers.php and define your paths", E_USER_ERROR);
 	        }
         }
         else
