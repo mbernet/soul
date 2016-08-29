@@ -4,7 +4,9 @@ namespace SoulFramework;
 class Soul {
 
     function __construct() {
-
+        spl_autoload_register(function($class) {
+            Autoloader::autoLoadFile($class);
+        });
     }
 
     public function init() {
