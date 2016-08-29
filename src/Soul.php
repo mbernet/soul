@@ -37,11 +37,11 @@ class Soul {
                 throw new SoulException("Method not allowed");
                 break;
             case \FastRoute\Dispatcher::FOUND:
-                FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
+                FrontController::dispatch('App\Controller\\'.$routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
                 break;
             case \FastRoute\Dispatcher::NOT_FOUND:
                 $req_array = explode('/', $uri);
-                $action['controller']   = str_replace('_', '', ucwords($req_array[1])).'Controller';
+                $action['controller']   = 'App\Controller\\'.str_replace('_', '', ucwords($req_array[1])).'Controller';
                 $action['file']         = strtolower($req_array[1]);
                 $action['function']     = $req_array[2];
                 $action['vars']         = array_slice($req_array, 3);
