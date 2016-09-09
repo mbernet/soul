@@ -21,7 +21,7 @@ class SoulException extends Exception
 		}
 		else
 		{
-			header('HTTP/1.0 404 Not Found');
+			header($_SERVER['SERVER_PROTOCOL'] . ' ' . '500'. ' '. 'Internal Server Error', true, 500);
 			if(defined('ERROR_VIEW')) {
 				$message['code'] = $exception->getCode();
 				$message['Message'] = $exception->getMessage();
