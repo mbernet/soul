@@ -1,5 +1,6 @@
 <?php
 namespace SoulFramework;
+use App\Config;
 class Model extends Object
 {
     protected static $modelMapper;
