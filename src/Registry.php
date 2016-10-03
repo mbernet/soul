@@ -7,47 +7,46 @@
  * @author Michael Peacock
  */
 namespace SoulFramework;
-use Exception;
 class Registry {
-	
+
 	/**
 	 * Our array of objects
 	 * @access private
 	 */
 	private static $objects = array();
-	
+
 	/**
 	 * Our array of settings
 	 * @access private
 	 */
 	private static $settings = array();
-	
-	
+
+
 	/**
 	 * The instance of the registry
 	 * @access private
 	 */
 	private static $instance;
-        
+
 	private static $objectTypes = array(
 		'model' => 'models',
 		'controller' => 'controllers'
 	);
-        
-	
+
+
 	/**
 	 * Private constructor to prevent it being created directly
 	 * @access private
 	 */
-        
+
 	private function __construct()
 	{
 	}
-		
+
 	/**
 	 * singleton method used to access the object
 	 * @access public
-	 * @return 
+	 * @return
 	 */
 	public static function init()
 	{
@@ -56,62 +55,62 @@ class Registry {
 			$obj = __CLASS__;
 			self::$instance = new $obj;
 		}
-		
+
 		return self::$instance;
 	}
-	
+
 	/**
 	 * prevent cloning of the object: issues an E_USER_ERROR if this is attempted
 	 */
 	public function __clone()
 	{
-		throw new Exception( 'Cloning the registry is not permitted', E_USER_ERROR );
+		throw new \Exception( 'Cloning the registry is not permitted', E_USER_ERROR );
 	}
-        
-        /**
-         *
-         * @param String $object class name
-         * @param String $type style
-         * @return Object 
-         */
-        public function get($object)
-        {
-            if($instance = self::getObject($object))
-            {
-                return $instance;
-            }
-            else if(Autoloader::autoLoadFile($object))
-            {
-            	$instance = new $object();
-                $obj = self::$objects[ $object ] = $instance;
-                return $obj;
-            }
-            else
-            {
-                throw new Exception("Cannot load $object", E_USER_ERROR);
-            }
-            
-        }
-        
-        public function model($name)
-        {
-            return self::get($name.'Model');
-        }
-        
-        public function __call($name, $arguments) 
-        {
-            if(array_key_exists($name, self::$objectTypes))
-            {
-                return self::get($arguments[0]);
-            }
-            else
-            {
-                throw new Exception("Method $name not found", E_USER_ERROR);
-            }
-        }
-        
-        
-	
+
+	/**
+	 *
+	 * @param String $object class name
+	 * @param String $type style
+	 * @return Object
+	 */
+	public function get($object)
+	{
+		if($instance = self::getObject($object))
+		{
+			return $instance;
+		}
+		else if(class_exists($object))
+		{
+			$instance = new $object();
+			$obj = self::$objects[ $object ] = $instance;
+			return $obj;
+		}
+		else
+		{
+			throw new \Exception("Cannot load $object", E_USER_ERROR);
+		}
+
+	}
+
+	public function model($name)
+	{
+		return self::get($name.'Model');
+	}
+
+	public function __call($name, $arguments)
+	{
+		if(key_exists($name, self::$objectTypes))
+		{
+			return self::get($arguments[0]);
+		}
+		else
+		{
+			throw new \Exception("Method $name not found", E_USER_ERROR);
+		}
+	}
+
+
+
 	/**
 	 * Stores an object in the registry
 	 * @param Object $object instance of the object
@@ -120,10 +119,10 @@ class Registry {
 	 */
 	public function storeObject( $object, $key )
 	{
-		
+
 		self::$objects[ $key ] = $object;
 	}
-	
+
 	/**
 	 * Gets an object from the registry
 	 * @param String $key the array key
@@ -135,9 +134,9 @@ class Registry {
 		{
 			return self::$objects[ $key ];
 		}
-                return false;
+		return false;
 	}
-	
+
 	/**
 	 * Stores settings in the registry
 	 * @param String $data
@@ -148,7 +147,7 @@ class Registry {
 	{
 		self::$settings[ $key ] = $data;
 	}
-	
+
 	/**
 	 * Gets a setting from the registry
 	 * @param String $key the key in the array
@@ -158,10 +157,10 @@ class Registry {
 	{
 		return self::$settings[ $key ];
 	}
-	
-        
-        public function getAllObjects()
-        {
-            return self::$objects;
-        }
+
+
+	public function getAllObjects()
+	{
+		return self::$objects;
+	}
 }
