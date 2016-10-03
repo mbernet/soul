@@ -54,11 +54,11 @@ class Controller extends Object
         {
         	
             ob_start();
-            include('app'.DS.'views'.DS.$view.'.php');
+            include(VIEWS_PATH.DS.$view.'.php');
             $view_content = ob_get_clean();
             
             ob_start();
-            include('app'.DS.'views'.DS.'layouts'.DS.$layout.'.php');
+            include(VIEWS_PATH.DS.'layouts'.DS.$layout.'.php');
             if($this->generateCache)
             {
             	//$all_content = ob_get_clean();
@@ -70,14 +70,14 @@ class Controller extends Object
         private function renderView($view, $data)
         {
             ob_start();
-            include('app'.DS.'views'.DS.$view.'.php');
+            include(VIEWS_PATH.DS.$view.'.php');
             ob_flush();
         }
 
-        private function renderElement($element, $data = null)
+        protected function renderElement($element, $data = null)
         {
             ob_start();
-            include('app'.DS.'views'.DS.$element.'.php');
+            include(VIEWS_PATH.DS.$element.'.php');
             $all_content = ob_get_clean();
             return $all_content;
         }
