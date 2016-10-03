@@ -3,22 +3,18 @@ namespace SoulFramework;
 
 class Soul {
 
-    function __construct() {
-        require('app/config/config.php');
-        require('app/config/bootstrap.php');
-        require('app/config/paths.php');
-/*
-        spl_autoload_register(function($class) {
-            Autoloader::autoLoadFile($class);
-        });
-*/
+    protected $appDirName = 'app';
+    function __construct($appDirName) {
+        $this->appDirName = $appDirName;
+        require($this->appDirName.'/Config/bootstrap.php');
+        require($this->appDirName.'/Config/config.php');
     }
 
     public function init() {
         set_exception_handler(array('SoulFramework\SoulException', 'catchException'));
 
         $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
-            require('app/config/routes.php');
+            require($this->appDirName.'/Config/routes.php');
         });
 
 // Fetch method and URI from somewhere
