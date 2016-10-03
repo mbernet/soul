@@ -1,6 +1,6 @@
 <?php
 namespace SoulFramework;
-use App\Config;
+
 class Model extends Object
 {
     protected static $modelMapper;
@@ -17,7 +17,7 @@ class Model extends Object
 
     public function __construct()
     {
-        $this->defaultConnection = DatabaseConfig::$default;
+        $this->defaultConnection = \App\Config\DatabaseConfig::$default;
     }
 
     public function getPrimaryKey($table) {
