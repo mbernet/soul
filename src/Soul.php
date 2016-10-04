@@ -6,8 +6,6 @@ class Soul {
     protected $appDirName = 'app';
     function __construct($appDirName) {
         $this->appDirName = $appDirName;
-        require($this->appDirName.'/Config/bootstrap.php');
-        require($this->appDirName.'/Config/config.php');
     }
 
     public function init() {

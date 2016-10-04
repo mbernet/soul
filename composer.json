@@ -15,6 +15,8 @@
         "psr-4": {
             "SoulFramework\\": "src/"
         },
-        "files": ["src/functions.php"]
+        "files": [
+            "src/lib/functions.php"
+        ]
     }
 }
