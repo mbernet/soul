@@ -11,12 +11,7 @@ class FrontController
                 $controller_inst->action = $action;
                 $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
                 $controller_inst->beforeAction();
-                //$generateCache = false;
                 $avoid_call_action = false;
-                if(isset($controller_inst->cacheActions[$action]))
-                {
-                    $avoid_call_action = $controller_inst->manageCache();
-                }
 				if(!$avoid_call_action)
 				{
                     $controller_inst->$action();

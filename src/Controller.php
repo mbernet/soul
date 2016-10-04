@@ -5,7 +5,6 @@ class Controller extends Object
 {
 		protected $params = array();
         protected $layout = 'default';
-        protected $generateCache = false;
 		public $action = '';
         
  /**
@@ -59,11 +58,6 @@ class Controller extends Object
             
             ob_start();
             include(VIEWS_PATH.DS.'layouts'.DS.$layout.'.php');
-            if($this->generateCache)
-            {
-            	//$all_content = ob_get_clean();
-            	ActionCache::writeCache($this->name, $this->action);
-            }
             ob_flush();
         }
         
@@ -80,26 +74,6 @@ class Controller extends Object
             include(VIEWS_PATH.DS.$element.'.php');
             $all_content = ob_get_clean();
             return $all_content;
-        }
-
-        public function manageCache()
-        {
-        	if (defined('DISABLE_CACHE') && DISABLE_CACHE )
-        	{
-        		return false;
-        	}
-        	if(ActionCache::isCached($this->name, $this->action, $this->cacheActions[$this->action]['expiration']))
-        	{
-        		ActionCache::showCache($this->name, $this->action);
-        		echo "<!-- cached -->";
-        		return true;
-        	}
-        	else
-        	{
-        		$this->generateCache = true;
-        	}
-        	
-        	return false;
         }
 
 		protected function model($name)

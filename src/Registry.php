@@ -99,7 +99,7 @@ class Registry {
 
 	public function __call($name, $arguments)
 	{
-		if(key_exists($name, self::$objectTypes))
+		if(array_key_exists($name, self::$objectTypes))
 		{
 			return self::get($arguments[0]);
 		}

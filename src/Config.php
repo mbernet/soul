@@ -34,7 +34,7 @@ class Config
     
     public function __clone()
     {
-        throw new Exception('Clone is not allowed.', E_USER_ERROR);
+        throw new \Exception('Clone is not allowed.', E_USER_ERROR);
     }
 
 }
