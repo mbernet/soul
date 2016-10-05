@@ -1,7 +1,5 @@
 <?php
 
-use SoulFramework;
-
 if(!function_exists('__')) {
 	function __($text)
 	{
