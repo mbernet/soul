@@ -84,7 +84,7 @@ class Model extends Object
             if(!$statement->execute($input_parameters))
             {
                 $errorInfo = implode(' : ', $statement->errorInfo());
-                throw new Exception("SQL ERROR: $errorInfo \r\n $sql");
+                throw new \Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
             return $statement;
         }
