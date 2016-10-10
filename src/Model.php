@@ -1,6 +1,7 @@
 <?php
 namespace SoulFramework;
-
+use PDO;
+use PDOStatement;
 class Model extends Object
 {
     protected static $modelMapper;
