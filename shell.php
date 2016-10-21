@@ -42,7 +42,7 @@ if(isset($argv[1]) && isset($argv[2]))
 	if(method_exists($shell, $argv[2]))
 	{
 		$shell->params = $argv;
-		$shell->$argv[2]();
+		$shell->{$argv[2]}();
 	}
 	else
 	{
