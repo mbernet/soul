@@ -9,7 +9,7 @@ class Object
 		$context = [];
 		if(is_array($msg) || is_object($msg))
 		{
-			$context = $msg;
+			$context = (array)$msg;
 			$msg = '';
 		}
 
