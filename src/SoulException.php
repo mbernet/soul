@@ -6,10 +6,10 @@ class SoulException extends \Exception
 	static function catchException($exception)
 	{
 		if($exception->getCode() == 404) {
-			if(class_exists('StaticController')) {
-				$controller = new StaticController();
+			if(class_exists('App\Controller\StaticController')) {
+				$controller = new \App\Controller\StaticController();
 				if(method_exists($controller, 'error404')) {
-					$controller->error404();
+					$controller->error404($exception);
 				}
 			}
 		}
@@ -34,12 +34,11 @@ class SoulException extends \Exception
 			else
 			{
 				header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-				if(defined('ERROR_VIEW')) {
-					$message['code'] = $exception->getCode();
-					$message['Message'] = $exception->getMessage();
-					$message['File'] = $exception->getFile();
-					$message['line'] = $exception->getLine();
-					include('app'.DS.'views'.DS.ERROR_VIEW.'.php');
+				if(class_exists('App\Controller\StaticController')) {
+					$controller = new \App\Controller\StaticController();
+					if(method_exists($controller, 'error500')) {
+						$controller->error500($exception);
+					}
 				}
 			}
 		}
