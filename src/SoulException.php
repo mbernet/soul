@@ -5,33 +5,43 @@ class SoulException extends \Exception
 {
 	static function catchException($exception)
 	{
-		if(DEBUG || php_sapi_name() == 'cli')
-		{
-			$message['code'] = $exception->getCode();
-			$message['Message'] = $exception->getMessage();
-			$message['File'] = $exception->getFile();
-			$message['line'] = $exception->getLine();
-
-			if( php_sapi_name() != 'cli' )
-			{
-				self::showError($message);
-			}
-			else
-			{
-				self::showConsoleError($message);
+		if($exception->getCode() == 404) {
+			if(class_exists('StaticController')) {
+				$controller = new StaticController();
+				if(method_exists($controller, 'error404')) {
+					$controller->error404();
+				}
 			}
 		}
-		else
-		{
-			header('HTTP/1.0 404 Not Found');
-			if(defined('ERROR_VIEW')) {
+		else {
+			if(DEBUG || php_sapi_name() == 'cli')
+			{
 				$message['code'] = $exception->getCode();
 				$message['Message'] = $exception->getMessage();
 				$message['File'] = $exception->getFile();
 				$message['line'] = $exception->getLine();
-				include('app'.DS.'views'.DS.ERROR_VIEW.'.php');
-			}
 
+				if( php_sapi_name() != 'cli' )
+				{
+					header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+					self::showError($message);
+				}
+				else
+				{
+					self::showConsoleError($message);
+				}
+			}
+			else
+			{
+				header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+				if(defined('ERROR_VIEW')) {
+					$message['code'] = $exception->getCode();
+					$message['Message'] = $exception->getMessage();
+					$message['File'] = $exception->getFile();
+					$message['line'] = $exception->getLine();
+					include('app'.DS.'views'.DS.ERROR_VIEW.'.php');
+				}
+			}
 		}
 	}
 	static function showError($message)
