@@ -37,7 +37,7 @@ if(!function_exists('auto_version')) {
 
 	function auto_version($file)
 	{
-		if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'] . $file))
+		if (strpos($file, '/') !== 0 || !file_exists($_SERVER['DOCUMENT_ROOT'] . '/public/' . $file))
 			return $file;
 
 		$asset = CURRENT_ASSET;
