@@ -1,31 +1,29 @@
 <?php
 class FrontController
 {
-	static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
-	{              
-		$controller_inst = new $controller();
-        if(method_exists($controller_inst,$action) || method_exists($controller_inst, '__call'))
+        static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
         {
-                $controller_inst->name = $controller;
-                $controller_inst->action = $action;
-                $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
-
-                $controller_inst->beforeAction();
-                //$generateCache = false;
-                $avoid_call_action = false;
-                if(isset($controller_inst->cacheActions[$action]))
-                {
-                    $avoid_call_action = $controller_inst->manageCache();
+                if(class_exists($controller)) {
+                        $controller_inst = new $controller();
+                        if(method_exists($controller_inst,$action) || method_exists($controller_inst, '__call'))
+                        {
+                                $controller_inst->name = $controller;
+                                $controller_inst->action = $action;
+                                $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
+                                $controller_inst->beforeAction();
+                                $avoid_call_action = false;
+                                if(!$avoid_call_action) {
+                                        $controller_inst->$action();
+                                }
+                                $controller_inst->afterAction();
+                        }
+                        else {
+                                throw new \Exception("Missing method $action in $controller", 404);
+                        }
                 }
-				if(!$avoid_call_action)
-				{
-                    $controller_inst->$action();
-				}
-                $controller_inst->afterAction();
+                else
+                {
+                        throw new \Exception("Controller $controller does not exists", 404);
+                }
         }
-        else
-        {
-                throw new Exception("Missing method in $controller", E_USER_ERROR);
-        }
-	}
 }
