@@ -41,7 +41,7 @@ class Autoloader
 				        return true;
 			        }
 		        }
-		        throw new Exception("File $file not found: Error loading $class_name class. <br>Look at config/controllers.php and define your paths", E_USER_ERROR);
+		        throw new Exception("File $file not found: Error loading $class_name class. <br>Look at config/controllers.php and define your paths", 404);
 	        }
         }
         else
@@ -93,6 +93,4 @@ class Autoloader
         $result = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $name));
         return $result;
     }
-
-
 }
