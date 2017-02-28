@@ -1,4 +1,5 @@
 <?php
+namespace SoulFramework;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 class Object
