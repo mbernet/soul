@@ -62,14 +62,14 @@ class Controller extends Object
             	//$all_content = ob_get_clean();
             	ActionCache::writeCache($this->name, $this->action);
             }
-            ob_flush();
+            ob_end_flush();
         }
         
         private function renderView($view, $data)
         {
             ob_start();
             include('app'.DS.'views'.DS.$view.'.php');
-            ob_flush();
+            ob_end_flush();
         }
 
         private function renderElement($element, $data = null)
