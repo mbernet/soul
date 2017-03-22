@@ -174,7 +174,7 @@ class Model extends Object
         foreach($data as $key => $value) {
             $key = stripslashes($key);
             $strFields .= "`$key`, ";
-            $strValues .= ":$key, ";
+            $strValues .= ":".str_replace('-', '_', $key).", ";
         }
         $strValues = rtrim($strValues, ', ');
         $strFields = rtrim($strFields, ', ');
@@ -183,6 +183,7 @@ class Model extends Object
         $rs = $this->prepare($sql);
 
         foreach($params as $key => $value) {
+            $key = str_replace('-', '_', $key);
             $rs->bindValue(":$key", $value);
         }
 
