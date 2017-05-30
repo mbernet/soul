@@ -12,6 +12,11 @@ You can install Soul into your project using
 $ composer require mbernet/soul:"dev-psr4"
 ```
 
+## Some libraries we use
+
+* [FastRoute](https://github.com/nikic/FastRoute) - This library provides a fast implementation of a regular expression based router
+* [Monolog](https://packagist.org/packages/monolog/monolog) - Sends your logs to files, sockets, inboxes, databases and various web services
+
 
 # Security
 
