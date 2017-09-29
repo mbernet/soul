@@ -1,15 +1,4 @@
 <?php
-
-if(!function_exists('__')) {
-	function __($text)
-	{
-		if(empty($text))
-			return '';
-		else
-			return gettext($text);
-	}
-}
-
 if(!function_exists('debug')) {
 	function debug($obj)
 	{
