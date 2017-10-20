@@ -19,12 +19,14 @@ class FrontController
                         $controller_inst->afterAction();
                 }
                 else {
-                        throw new \Exception("Missing method $action in $controller", 404);
+                    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
+                    throw new \Exception("Missing method $action in $controller", 404);
                 }
         }
         else
         {
-                throw new \Exception("Controller $controller does not exists", 404);
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
+            throw new \Exception("Controller $controller does not exists", 404);
         }
 	}
 }
