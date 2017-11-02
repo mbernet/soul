@@ -1,7 +1,7 @@
 <?php
 namespace SoulFramework;
 
-class Controller extends Object
+class Controller extends SoulObject
 {
 		protected $params = array();
         protected $layout = 'default';
