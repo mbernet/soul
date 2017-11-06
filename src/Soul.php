@@ -23,7 +23,13 @@ class Soul {
         if($httpMethod == 'OPTIONS') {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, OPTIONS');
-            header('Access-Control-Allow-Headers: Content-Type, ApiKey, Authorization');
+            if(defined('ALLOWED_HEADERS')) {
+                header('Access-Control-Allow-Headers: '.ALLOWED_HEADERS);
+            }
+            else {
+                header('Access-Control-Allow-Headers: Content-Type, ApiKey, Authorization');
+            }
+
             header($_SERVER['SERVER_PROTOCOL'] . ' 200 OK', true, 200);
             exit();
         }
