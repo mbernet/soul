@@ -8,20 +8,12 @@ class Model extends SoulObject
     protected static $connection = null;
     private static $connection_name;
     protected $defaultConnection;
-    //private $current_statement = null;
 
-
-    public static function gateway()
-    {
-        // return $this->$modelMapper;
-    }
-
-    public function __construct()
-    {
+    function __construct() {
         $this->defaultConnection = \App\Config\DatabaseConfig::$default;
     }
 
-    public function getPrimaryKey($table) {
+    protected function getPrimaryKey($table) {
         $sql = "SHOW KEYS FROM `$table` WHERE Key_name = 'PRIMARY'";
         $rs = $this->query($sql);
         if($rs->rowCount() > 0) {
@@ -31,9 +23,9 @@ class Model extends SoulObject
     }
 
     /**
+     * @param $sql
      *
-     * @param type $statement
-     * @return type
+     * @return bool
      */
     protected function beforeQuery($sql)
     {
@@ -45,13 +37,16 @@ class Model extends SoulObject
      *
      * @param type $config
      */
-    public function connect($config)
+    protected function connect($config)
     {
         self::$connection_name = $config['name'];
         self::$connection = ConnectionFactory::init()->getConnection($config);
     }
 
-    public function getCurrentConnectionName()
+    /**
+     * @return mixed
+     */
+    protected function getCurrentConnectionName()
     {
         return self::$connection_name;
     }
@@ -59,7 +54,7 @@ class Model extends SoulObject
     /**
      * @return PDO connection
      */
-    public function getCurrentConnection()
+    protected function getCurrentConnection()
     {
         if(self::$connection == null)
         {
@@ -69,11 +64,13 @@ class Model extends SoulObject
     }
 
     /**
+     * @param $sql
+     * @param null $input_parameters
      *
-     * @param string $sql
-     * @return PDOStatement statement
+     * @return bool
+     * @throws \Exception
      */
-    public function query($sql, $input_parameters = null)
+    protected function query($sql, $input_parameters = null)
     {
         if($this->beforeQuery($sql))
         {
@@ -96,7 +93,7 @@ class Model extends SoulObject
      * @param string $sql
      * @return PDOStatement statement
      */
-    public function prepare($sql)
+    protected function prepare($sql)
     {
         if(self::$connection == null)
         {
@@ -104,11 +101,18 @@ class Model extends SoulObject
         }
         return self::$connection->prepare($sql);
     }
+
+    /**
+     * @return mixed
+     */
     public function lastInsertId()
     {
         return self::$connection->lastInsertId();
     }
 
+    /**
+     * @return bool
+     */
     protected function rules()
     {
         return false;
@@ -123,11 +127,11 @@ class Model extends SoulObject
     }
 
 
-
-    /*
-    * Check $data with validationRules()
-    *
-    */
+    /**
+     * @param $data
+     *
+     * @return array|bool
+     */
     public function validate($data)
     {
         $rules = $this->rules();
@@ -166,6 +170,13 @@ class Model extends SoulObject
         return $errors;
     }
 
+    /**
+     * @param $table
+     * @param $data
+     *
+     * @return mixed
+     * @throws SoulException
+     */
     protected function insert($table, $data) {
         $table = stripslashes($table);
         $strValues = '';
