@@ -5,9 +5,9 @@ class FrontController
 	static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
     {
         if(class_exists($controller)) {
-                $controller_inst = new $controller();
-                if(method_exists($controller_inst,$action) || method_exists($controller_inst, '__call'))
-                {
+                $reflectionClass = new \ReflectionClass($controller);
+                if($reflectionClass->hasMethod($action) && $reflectionClass->getMethod($action)->class === $controller) {
+                        $controller_inst = new $controller();
                         $controller_inst->name = $controller;
                         $controller_inst->action = $action;
                         $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
