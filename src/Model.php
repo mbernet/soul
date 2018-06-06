@@ -74,12 +74,27 @@ class Model extends SoulObject
     {
         if($this->beforeQuery($sql))
         {
-            if(self::$connection == null)
-            {
+            if(self::$connection == null) {
                 $this->connect($this->defaultConnection);
             }
             $statement = self::$connection->prepare($sql);
-            if(!$statement->execute($input_parameters))
+            if(!empty($input_parameters)) {
+                foreach ($input_parameters as $key => $input) {
+                    switch (gettype($input)) {
+                        case 'integer':
+                            $paramType = PDO::PARAM_INT;
+                            break;
+                        case 'boolean':
+                            $paramType = PDO::PARAM_BOOL;
+                            break;
+                        default:
+                            $paramType = PDO::PARAM_STR;
+                            break;
+                    }
+                    $statement->bindValue($key, $input, $paramType);
+                }
+            }
+            if(!$statement->execute())
             {
                 $errorInfo = implode(' : ', $statement->errorInfo());
                 throw new \Exception("SQL ERROR: $errorInfo \r\n $sql");
