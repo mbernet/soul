@@ -20,11 +20,15 @@ class ConnectionFactory
 
     public function getConnection($config) {
         if (!isset($this->db[$config['name']])) {
+            $charset = '';
             $options = null;
             if(isset($config['options'])) {
                 $options = $config['options'];
             }
-            $this->db[$config['name']] = new \PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};charset=utf8;", $config['login'], $config['password'], $options);
+            if(strtolower($config['driver']) === 'mysql') {
+                $charset = 'charset=utf8;';
+            }
+            $this->db[$config['name']] = new \PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};$charset", $config['login'], $config['password'], $options);
         }
 
         return $this->db[$config['name']];
