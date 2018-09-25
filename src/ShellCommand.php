@@ -8,7 +8,7 @@ class ShellCommand
 	function __construct()
 	{
 		if( php_sapi_name() != 'cli' )
-			throw new Exception('Shell Command not executed from the cli');
+			throw new \Exception('Shell Command not executed from the cli');
 
 		$this->foreground_colors['black'] = '0;30';
 		$this->foreground_colors['dark_gray'] = '1;30';
