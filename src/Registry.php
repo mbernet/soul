@@ -1,67 +1,55 @@
 <?php
-/**
- * The Registry object
- * Implements the Registry and Singleton design patterns
- *
- * @version 0.1
- * @author Michael Peacock
- */
 namespace SoulFramework;
-
+/**
+ * Class Registry
+ * @package SoulFramework
+ */
 class Registry
 {
 
     /**
-     * Our array of objects
-     * @access private
+     * @var array
      */
     private static $objects = array();
 
     /**
-     * Our array of settings
-     * @access private
+     * @var array
      */
     private static $settings = array();
 
 
     /**
-     * The instance of the registry
-     * @access private
+     * @var Registry
      */
     private static $instance;
 
+    /**
+     * @var array
+     */
     private static $objectTypes = array(
         'model' => 'models',
         'controller' => 'controllers'
     );
 
 
-    /**
-     * Private constructor to prevent it being created directly
-     * @access private
-     */
 
     private function __construct()
     {
     }
 
     /**
-     * singleton method used to access the object
-     * @access public
-     * @return
+     * @return Registry
      */
     public static function init()
     {
         if (!isset(self::$instance)) {
-            $obj = __CLASS__;
-            self::$instance = new $obj;
+            self::$instance = new Registry();
         }
-
         return self::$instance;
     }
 
     /**
-     * prevent cloning of the object: issues an E_USER_ERROR if this is attempted
+     * @throws \Exception
      */
     public function __clone()
     {
@@ -87,11 +75,24 @@ class Registry
         }
     }
 
+    /**
+     * @param $name
+     *
+     * @return object | Model
+     * @throws \Exception
+     */
     public function model($name)
     {
         return self::get($name.'Model');
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     *
+     * @return object
+     * @throws \Exception
+     */
     public function __call($name, $arguments)
     {
         if (array_key_exists($name, self::$objectTypes)) {
@@ -115,9 +116,9 @@ class Registry
     }
 
     /**
-     * Gets an object from the registry
-     * @param String $key the array key
-     * @return object
+     * @param $key
+     *
+     * @return bool|mixed
      */
     public function getObject($key)
     {
@@ -139,9 +140,9 @@ class Registry
     }
 
     /**
-     * Gets a setting from the registry
-     * @param String $key the key in the array
-     * @return void
+     * @param $key
+     *
+     * @return mixed
      */
     public function getSetting($key)
     {
@@ -149,6 +150,9 @@ class Registry
     }
 
 
+    /**
+     * @return array
+     */
     public function getAllObjects()
     {
         return self::$objects;

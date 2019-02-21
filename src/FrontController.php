@@ -3,6 +3,16 @@ namespace SoulFramework;
 
 class FrontController
 {
+    /**
+     * @param $controller
+     * @param $action
+     * @param $vars_get
+     * @param $vars_post
+     * @param $vars_uri
+     * @param $vars_arg
+     *
+     * @throws \ReflectionException | \Exception
+     */
     public static function dispatch($controller, $action, $vars_get, $vars_post, $vars_uri, $vars_arg)
     {
         if (class_exists($controller)) {
@@ -12,6 +22,9 @@ class FrontController
             $callMethodExists = $rfClass->hasMethod('__call') && $rfClass->getMethod('__call')->class === $controller;
 
             if ($namedMethodExists || $callMethodExists) {
+                /**
+                 * @var Controller $controller
+                 */
                 $controller_inst = new $controller();
                 $controller_inst->name = $controller;
                 $controller_inst->action = $action;
