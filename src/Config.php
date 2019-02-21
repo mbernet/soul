@@ -1,26 +1,25 @@
 <?php
 namespace SoulFramework;
+
 class Config
 {
     private static $instance;
     private $config = array();
-    private function __construct() 
-    {    
-    	
+    private function __construct()
+    {
     }
     
     public function read($key)
     {
-    	if(isset($this->config[$key]))
-    	{
-    		return $this->config[$key];
-    	}
-    	return false;
+        if (isset($this->config[$key])) {
+            return $this->config[$key];
+        }
+        return false;
     }
     
     public function write($key, $value)
     {
-    	$this->config[$key] = $value;
+        $this->config[$key] = $value;
     }
     public static function get()
     {
@@ -36,5 +35,4 @@ class Config
     {
         throw new \Exception('Clone is not allowed.', E_USER_ERROR);
     }
-
 }

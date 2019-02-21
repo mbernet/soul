@@ -1,7 +1,9 @@
 <?php
 namespace SoulFramework;
+
 use PDO;
 use PDOStatement;
+
 class Model extends SoulObject
 {
     protected static $modelMapper;
@@ -9,14 +11,16 @@ class Model extends SoulObject
     private static $connection_name;
     protected $defaultConnection;
 
-    function __construct() {
+    public function __construct()
+    {
         $this->defaultConnection = \App\Config\DatabaseConfig::$default;
     }
 
-    protected function getPrimaryKey($table) {
+    protected function getPrimaryKey($table)
+    {
         $sql = "SHOW KEYS FROM `$table` WHERE Key_name = 'PRIMARY'";
         $rs = $this->query($sql);
-        if($rs->rowCount() > 0) {
+        if ($rs->rowCount() > 0) {
             return $rs->fetch(PDO::FETCH_OBJ)->Column_name;
         }
         return false;
@@ -56,8 +60,7 @@ class Model extends SoulObject
      */
     protected function getCurrentConnection()
     {
-        if(self::$connection == null)
-        {
+        if (self::$connection == null) {
             $this->connect($this->defaultConnection);
         }
         return self::$connection;
@@ -72,13 +75,12 @@ class Model extends SoulObject
      */
     protected function query($sql, $input_parameters = null)
     {
-        if($this->beforeQuery($sql))
-        {
-            if(self::$connection == null) {
+        if ($this->beforeQuery($sql)) {
+            if (self::$connection == null) {
                 $this->connect($this->defaultConnection);
             }
             $statement = self::$connection->prepare($sql);
-            if(!empty($input_parameters)) {
+            if (!empty($input_parameters)) {
                 foreach ($input_parameters as $key => $input) {
                     switch (gettype($input)) {
                         case 'integer':
@@ -94,8 +96,7 @@ class Model extends SoulObject
                     $statement->bindValue($key, $input, $paramType);
                 }
             }
-            if(!$statement->execute())
-            {
+            if (!$statement->execute()) {
                 $errorInfo = implode(' : ', $statement->errorInfo());
                 throw new \Exception("SQL ERROR: $errorInfo \r\n $sql");
             }
@@ -110,8 +111,7 @@ class Model extends SoulObject
      */
     protected function prepare($sql)
     {
-        if(self::$connection == null)
-        {
+        if (self::$connection == null) {
             $this->connect($this->defaultConnection);
         }
         return self::$connection->prepare($sql);
@@ -152,36 +152,28 @@ class Model extends SoulObject
         $rules = $this->rules();
         $regex = $this->validationRules();
         $errors = array();
-        if($rules)
-        {
-            foreach($rules as $key => $value)
-            {
-                if(isset($rules[$key]))
-                {
-
-                    if($value['required'] && empty($data[$key]))
-                    {
+        if ($rules) {
+            foreach ($rules as $key => $value) {
+                if (isset($rules[$key])) {
+                    if ($value['required'] && empty($data[$key])) {
                         $errors[$key] = 'FIELD_EMPTY';
                     }
-                    if(isset($data[$key]) && isset($value['rule']) && isset($regex[$value['rule']]))
-                    {
-                        if(!preg_match($regex[$value['rule']], $data[$key]))
-                        {
+                    if (isset($data[$key]) && isset($value['rule']) && isset($regex[$value['rule']])) {
+                        if (!preg_match($regex[$value['rule']], $data[$key])) {
                             $errors[$key] = 'NOT_MATCH';
                         }
                     }
-                    if(isset($data[$key]) && isset($value['function']))
-                    {
-                        if($this->$value['function']($data[$key]) === false)
-                        {
+                    if (isset($data[$key]) && isset($value['function'])) {
+                        if ($this->$value['function']($data[$key]) === false) {
                             $errors[$key] = 'NOT_MATCH';
                         }
                     }
                 }
             }
         }
-        if(empty($errors))
+        if (empty($errors)) {
             return true;
+        }
         return $errors;
     }
 
@@ -192,12 +184,13 @@ class Model extends SoulObject
      * @return mixed
      * @throws SoulException
      */
-    protected function insert($table, $data) {
+    protected function insert($table, $data)
+    {
         $table = stripslashes($table);
         $strValues = '';
         $strFields = '';
         $params = $data;
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $key = stripslashes($key);
             $strFields .= "`$key`, ";
             $strValues .= ":".str_replace('-', '_', $key).", ";
@@ -208,16 +201,15 @@ class Model extends SoulObject
 
         $rs = $this->prepare($sql);
 
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $key = str_replace('-', '_', $key);
             $rs->bindValue(":$key", $value);
         }
 
 
-        if($rs->execute()) {
+        if ($rs->execute()) {
             return $this->lastInsertId();
-        }
-        else {
+        } else {
             $errorInfo = $rs->errorInfo();
             throw new SoulException($errorInfo[2]);
         }
@@ -230,11 +222,11 @@ class Model extends SoulObject
      * @return bool
      * @throws SoulException
      */
-    protected function update($table, $data, $id) {
-
+    protected function update($table, $data, $id)
+    {
         $strFields = '';
         $params = $data;
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $strFields .= "`$key` = :$key, ";
         }
         $strFields = rtrim($strFields, ', ');
@@ -243,20 +235,16 @@ class Model extends SoulObject
 
 
         $rs = $this->prepare($sql);
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $rs->bindValue(":$key", $value);
         }
         $rs->bindValue(':primary_key_id', $id);
 
-        if($rs->execute()) {
+        if ($rs->execute()) {
             return true;
-        }
-        else {
+        } else {
             $errorInfo = $rs->errorInfo();
             throw new SoulException($errorInfo[2]);
         }
     }
-
 }
-
-

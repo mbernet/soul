@@ -11,8 +11,9 @@ class ConnectionFactory
      */
     public static function init()
     {
-        if (!self::$factory)
+        if (!self::$factory) {
             self::$factory = new ConnectionFactory();
+        }
         return self::$factory;
     }
 
@@ -21,14 +22,15 @@ class ConnectionFactory
      *
      * @return \PDO
      */
-    public function getConnection($config) {
+    public function getConnection($config)
+    {
         if (!isset($this->db[$config['name']])) {
             $charset = '';
             $options = null;
-            if(isset($config['options'])) {
+            if (isset($config['options'])) {
                 $options = $config['options'];
             }
-            if(strtolower($config['driver']) === 'mysql') {
+            if (strtolower($config['driver']) === 'mysql') {
                 $charset = 'charset=utf8;';
             }
             $this->db[$config['name']] = new \PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};$charset", $config['login'], $config['password'], $options);

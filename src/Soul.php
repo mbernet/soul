@@ -1,18 +1,21 @@
 <?php
 namespace SoulFramework;
+
 use FastRoute\Dispatcher;
 
-class Soul {
-
+class Soul
+{
     protected $appDirName = 'app';
-    function __construct($appDirName) {
+    public function __construct($appDirName)
+    {
         $this->appDirName = $appDirName;
     }
 
-    public function init() {
+    public function init()
+    {
         set_exception_handler(array('SoulFramework\SoulException', 'catchException'));
 
-        $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
+        $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
             require($this->appDirName.'/Config/routes.php');
         });
 
@@ -20,13 +23,12 @@ class Soul {
         $httpMethod = $_SERVER['REQUEST_METHOD'];
         $uri = $_SERVER['REQUEST_URI'];
 
-        if($httpMethod == 'OPTIONS') {
+        if ($httpMethod == 'OPTIONS') {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Methods: GET, POST, DELETE, PUT, PATCH, OPTIONS');
-            if(defined('ALLOWED_HEADERS')) {
+            if (defined('ALLOWED_HEADERS')) {
                 header('Access-Control-Allow-Headers: '.ALLOWED_HEADERS);
-            }
-            else {
+            } else {
                 header('Access-Control-Allow-Headers: Content-Type, ApiKey, Authorization');
             }
 
@@ -49,14 +51,13 @@ class Soul {
                 break;
             case Dispatcher::NOT_FOUND:
                 $req_array = explode('/', $uri);
-                if(count($req_array) > 2) {
+                if (count($req_array) > 2) {
                     $action['controller']   = 'App\Controller\\'.str_replace('_', '', ucwords($req_array[1])).'Controller';
                     $action['file']         = strtolower($req_array[1]);
                     $action['function']     = $req_array[2];
                     $action['vars']         = array_slice($req_array, 3);
                     FrontController::dispatch($action['controller'], $action['function'], $_GET, $_POST, $action['vars'], $action['vars']);
-                }
-                else {
+                } else {
                     header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
                     throw new SoulException('Page not found', 404);
                 }
