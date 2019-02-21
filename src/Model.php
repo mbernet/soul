@@ -7,8 +7,17 @@ use PDOStatement;
 class Model extends SoulObject
 {
     protected static $modelMapper;
-    protected static $connection = null;
+    /**
+     * @var PDO
+     */
+    protected static $connection;
+    /**
+     * @var string
+     */
     private static $connection_name;
+    /**
+     * @var array
+     */
     protected $defaultConnection;
 
     public function __construct()
@@ -39,7 +48,7 @@ class Model extends SoulObject
 
     /**
      *
-     * @param type $config
+     * @param array $config
      */
     protected function connect($config)
     {
@@ -60,7 +69,7 @@ class Model extends SoulObject
      */
     protected function getCurrentConnection()
     {
-        if (self::$connection == null) {
+        if (empty(self::$connection)) {
             $this->connect($this->defaultConnection);
         }
         return self::$connection;
