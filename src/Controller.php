@@ -6,12 +6,12 @@ class Controller extends SoulObject
 		protected $params = array();
         protected $layout = 'default';
 		public $action = '';
-        
- /**
-         *
-         * @param Array $get_vars
-         * @param Array $post_vars
-         * @param Array $url_vars 
+
+        /**
+         * @param $get_vars
+         * @param $post_vars
+         * @param $url_vars
+         * @param $vars_args
          */
         public function setRequest($get_vars, $post_vars, $url_vars, $vars_args)
         {

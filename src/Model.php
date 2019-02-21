@@ -67,7 +67,7 @@ class Model extends SoulObject
      * @param $sql
      * @param null $input_parameters
      *
-     * @return bool
+     * @return PDOStatement | bool
      * @throws \Exception
      */
     protected function query($sql, $input_parameters = null)

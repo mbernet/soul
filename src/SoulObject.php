@@ -42,6 +42,9 @@ class SoulObject
 		$log->debug($msg, $context);
 	}
 
+    /**
+     * @return mixed
+     */
 	public function __toString()
 	{
 		return var_export($this, true);

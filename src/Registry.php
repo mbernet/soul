@@ -67,12 +67,12 @@ class Registry {
 		throw new \Exception( 'Cloning the registry is not permitted', E_USER_ERROR );
 	}
 
-	/**
-	 *
-	 * @param String $object class name
-	 * @param String $type style
-	 * @return Object
-	 */
+    /**
+     * @param $object
+     *
+     * @return object
+     * @throws \Exception
+     */
 	public function get($object)
 	{
 		if($instance = self::getObject($object))

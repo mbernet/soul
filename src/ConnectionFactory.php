@@ -5,11 +5,9 @@ class ConnectionFactory
 {
     private static $factory;
     private $db = false;
-    private $numRows;
 
     /**
-     * Singleton contstructor
-     * @return type
+     * @return ConnectionFactory
      */
     public static function init()
     {
@@ -18,6 +16,11 @@ class ConnectionFactory
         return self::$factory;
     }
 
+    /**
+     * @param $config
+     *
+     * @return \PDO
+     */
     public function getConnection($config) {
         if (!isset($this->db[$config['name']])) {
             $charset = '';
@@ -30,7 +33,6 @@ class ConnectionFactory
             }
             $this->db[$config['name']] = new \PDO("{$config['driver']}:host={$config['host']};dbname={$config['database']};$charset", $config['login'], $config['password'], $options);
         }
-
         return $this->db[$config['name']];
     }
 }
