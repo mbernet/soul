@@ -9,7 +9,8 @@
     ],
     "require": {
         "nikic/fast-route": "^1.0",
-        "monolog/monolog": "^1.21"
+        "monolog/monolog": "^1.21",
+        "php-di/php-di": "^6.0"
     },
     "autoload": {
         "psr-4": {

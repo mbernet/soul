@@ -1,6 +1,8 @@
 <?php
 namespace SoulFramework;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use FastRoute\Dispatcher;
 
 class Soul
@@ -13,6 +15,9 @@ class Soul
 
     public function init()
     {
+        $diContainer = (new ContainerBuilder())->build();
+
+        Registry::init()->storeObject($diContainer, 'DiContainer');
         set_exception_handler(array('SoulFramework\SoulException', 'catchException'));
 
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {

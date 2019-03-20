@@ -1,6 +1,8 @@
 <?php
 namespace SoulFramework;
 
+use DI\Container;
+
 class FrontController
 {
     /**
@@ -25,7 +27,8 @@ class FrontController
                 /**
                  * @var Controller $controller
                  */
-                $controller_inst = new $controller();
+
+                $controller_inst = self::getDIContainer()->get($controller);
                 $controller_inst->name = $controller;
                 $controller_inst->action = $action;
                 $controller_inst->setRequest($vars_get, $vars_post, $vars_uri, $vars_arg);
@@ -43,5 +46,14 @@ class FrontController
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found', true, 404);
             throw new \Exception("Controller $controller does not exists", 404);
         }
+    }
+
+
+    /**
+     * @return Container
+     */
+    private static function getDIContainer() {
+        $diContainer = Registry::init()->getObject('DiContainer');
+        return $diContainer;
     }
 }
