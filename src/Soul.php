@@ -15,9 +15,14 @@ class Soul
 
     public function init()
     {
-        $diContainer = (new ContainerBuilder())->build();
+        $builder = new ContainerBuilder();
+        $builder->ignorePhpDocErrors(true);
+        $builder->enableCompilation(__DIR__ . '/tmp');
+        $builder->writeProxiesToFile(true, __DIR__ . '/tmp/proxies');
 
-        Registry::init()->storeObject($diContainer, 'DiContainer');
+        $container = $builder->build();
+
+        Registry::init()->storeObject($container, 'DiContainer');
         set_exception_handler(array('SoulFramework\SoulException', 'catchException'));
 
         $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
@@ -52,7 +57,7 @@ class Soul
                 throw new SoulException("Method not allowed");
                 break;
             case Dispatcher::FOUND:
-                FrontController::dispatch('App\Controller\\'.$routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
+                FrontController::dispatch($routeInfo[1]['controller'], $routeInfo[1]['action'], $_GET, $_POST, $routeInfo[2], array_merge($routeInfo[1], $routeInfo[2]));
                 break;
             case Dispatcher::NOT_FOUND:
                 $req_array = explode('/', $uri);
