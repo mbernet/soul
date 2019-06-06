@@ -20,11 +20,6 @@ class Model extends SoulObject
      */
     protected $defaultConnection;
 
-    public function __construct()
-    {
-        $this->defaultConnection = \App\Config\DatabaseConfig::$default;
-    }
-
     protected function getPrimaryKey($table)
     {
         $sql = "SHOW KEYS FROM `$table` WHERE Key_name = 'PRIMARY'";
