@@ -70,7 +70,8 @@ class Registry {
          *
          * @param String $object class name
          * @param String $type style
-         * @return Object 
+         *
+         * @return SoulObject
          */
         public function get($object)
         {
@@ -112,8 +113,10 @@ class Registry {
 	
 	/**
 	 * Stores an object in the registry
-	 * @param Object $object instance of the object
+     *
+     * @param SoulObject $object instance of the object
 	 * @param String $key the key for the array
+	 *
 	 * @return void
 	 */
 	public function storeObject( $object, $key )
@@ -124,8 +127,10 @@ class Registry {
 	
 	/**
 	 * Gets an object from the registry
+	 *
 	 * @param String $key the array key
-	 * @return object
+     *
+     * @return SoulObject
 	 */
 	public function getObject( $key )
 	{

@@ -14,7 +14,7 @@ $coreDir = __DIR__;
 
 require($coreDir.'/config.php');
 require('app/config/config.php');
-require($coreDir.'/object.php');
+require($coreDir . '/soulObject.php');
 require($coreDir.'/functions.php');
 require($coreDir.'/request.php');
 require($coreDir.'/front.php');

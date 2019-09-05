@@ -32,7 +32,7 @@ class ModelMapper
 
 }
 
-class Model extends Object
+class Model extends SoulObject
 {
     protected static $modelMapper;
     protected static $connection = null;

@@ -10,7 +10,7 @@ spl_autoload_register(function($class) {
 require($coreDir.'/config.php');
 require('app/config/config.php');
 require('app/config/bootstrap.php');
-require($coreDir.'/object.php');
+require($coreDir . '/soulObject.php');
 require($coreDir.'/functions.php');
 require($coreDir.'/request.php');
 require($coreDir.'/front.php');

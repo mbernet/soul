@@ -1,7 +1,7 @@
 <?php
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-class Object
+class SoulObject
 {
 
 	protected function log($msg, $file = null)
