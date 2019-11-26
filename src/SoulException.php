@@ -49,7 +49,7 @@ class SoulException extends \Exception
                 ]
             );
         } else {
-            header('HTTP/1.0 404 Not Found');
+            header($_SERVER['SERVER_PROTOCOL'] . ' ' . '500'. ' '. 'Internal Server Error', true, 500);
             echo "<h1> Error {$message['code']}</h1>";
             echo "<strong>{$message['Message']}</strong> ";
             echo "<br /><strong>file:</strong> {$message['File']} ";
