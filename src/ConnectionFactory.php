@@ -4,7 +4,7 @@ namespace SoulFramework;
 class ConnectionFactory
 {
     private static $factory;
-    private $db = false;
+    private $db = [];
 
     /**
      * @return ConnectionFactory
