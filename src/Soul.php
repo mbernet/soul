@@ -2,7 +2,7 @@
 namespace SoulFramework;
 
 use FastRoute\Dispatcher;
-
+#[AllowDynamicProperties]
 class Soul
 {
     protected $appDirName = 'app';

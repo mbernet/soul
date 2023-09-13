@@ -3,7 +3,7 @@ namespace SoulFramework;
 
 use PDO;
 use PDOStatement;
-
+#[AllowDynamicProperties]
 class Model extends SoulObject
 {
     protected static $modelMapper;

@@ -3,7 +3,7 @@ namespace SoulFramework;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
-
+#[AllowDynamicProperties]
 class SoulObject
 {
     protected function log($msg, $file = null)

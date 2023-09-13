@@ -1,6 +1,6 @@
 <?php
 namespace SoulFramework;
-
+#[AllowDynamicProperties]
 class Config
 {
     private static $instance;
